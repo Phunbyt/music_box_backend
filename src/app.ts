@@ -8,10 +8,11 @@ import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
 import router from "./routes/musicBoxController/musicRoutes";
 
-import { connectDB } from './config/database/dbConnection';
+import { connect } from './config/database/dbConnection';
+//import { connectDB } from './config/database/dbConnection';
 
 const app = express();
-connectDB();
+connect();
 
 // view engine setup
 app.set("views", path.join(__dirname, "../views"));

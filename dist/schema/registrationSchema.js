@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
-import {user} from '../interfaces/userinterface'
-const userSchema = new Schema<user>({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const userSchema = new mongoose_1.Schema({
     firstName: {
         type: String,
         required: true,
@@ -40,5 +41,5 @@ const userSchema = new Schema<user>({
 }, {
     timestamps: true
 });
-const NewUser = model("NewUser", userSchema);
-export default NewUser;
+const NewUser = mongoose_1.model("NewUser", userSchema);
+exports.default = NewUser;
