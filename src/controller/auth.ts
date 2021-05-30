@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import NewUser from '../schema/registrationSchema';
-import {validateUser} from '../utils/validator/userValidator';
+import { validateUser } from '../utils/validator/userValidator';
+import bcrypt from 'bcrypt';
+require("dotenv").config();
 
 
 export async function signUp(req: Request, res: Response, next: NextFunction) {
@@ -27,7 +29,7 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
             email,
             password
         });
-        
+
         res.status(201).send("Successfully added user");
     }
     catch (error) {

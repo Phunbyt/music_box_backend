@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.signIn = exports.signUp = void 0;
 const registrationSchema_1 = __importDefault(require("../schema/registrationSchema"));
 const userValidator_1 = require("../utils/validator/userValidator");
+require("dotenv").config();
 async function signUp(req, res, next) {
     try {
         const { firstName, lastName, dateOfBirth, gender, email, password, confirmPassword } = req.body;
