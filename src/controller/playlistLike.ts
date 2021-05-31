@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import {PlayListModel} from '../models/playlists';
+import {PlayListModel} from '../schema/playlistsSchema';
 
 
 export const likePublicPost = async (req: Request | any,res:Response) => {

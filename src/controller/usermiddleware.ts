@@ -1,7 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import NewUser from '../models/schema/registrationSchema';
+import NewUser from '../schema/registrationSchema';
 dotenv.config();
 
 export const userAuthentication = async (req:Request | any, res:Response, next:NextFunction) =>{

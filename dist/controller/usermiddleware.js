@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userAuthentication = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const registrationSchema_1 = __importDefault(require("../models/schema/registrationSchema"));
+const registrationSchema_1 = __importDefault(require("../schema/registrationSchema"));
 dotenv_1.default.config();
 const userAuthentication = async (req, res, next) => {
     if (req.headers.authorization) {
