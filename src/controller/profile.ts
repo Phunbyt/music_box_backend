@@ -1,11 +1,12 @@
 import express, { Request, Response} from 'express';
 import Profile from '../schema/profileSchema';
+import NewUser from '../schema/registrationSchema'
 import { profileJoiVal } from '../utils/validator/profileValidator';
 
 
 export const getSingleData = async (req: Request, res: Response) => {
   try {
-    const singleData = await Profile.findById(req.params.id).select('_id firstName lastName dateOfBirth country gender');
+    const singleData = await NewUser.findById(req.params.id).select('_id firstName lastName dateOfBirth country gender');
     return res.status(200).json(singleData);
   } catch (error) {
     res.status(404).json({ message: 'Error getting single data' });
@@ -22,7 +23,7 @@ export const updateData = async (req: Request, res: Response) => {
           res.status(400).send(check.error.details[0].message);
         }
         const sid = req.params.id;
-        const data = await Profile.findByIdAndUpdate(
+        const data = await NewUser.findByIdAndUpdate(
             sid,
             req.body,
             { useFindAndModify: false },
@@ -34,7 +35,7 @@ export const updateData = async (req: Request, res: Response) => {
                 }
             }
         ).exec();
-        return res.status(200).json(data);
+        return res.status(200).json({message: 'Updated successfully'});
     } catch (error) {
         return res.status(404).json({ message: 'Error updating data' });
     }
