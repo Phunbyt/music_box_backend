@@ -5,6 +5,9 @@ import {
   requestReset,
   reset,
 } from "../../controller/requestreset";
+import { getSingleData, updateData } from '../../controller/profile';
+import { userAuthentication } from '../../controller/usermiddleware';
+import { likePublicPost } from '../../controller/playlistLike';
 const router = express.Router();
 
 // Genre routes
@@ -15,6 +18,11 @@ router.get('/music/genre/:id', genre)
 
 router.post('/music/signUp', signUp)
 router.post('/music/signIn', signIn)
+router.put('/likePublicPost/:id',userAuthentication,likePublicPost)
+
+// Profile route
+router.get('/music/profile/:id', userAuthentication, getSingleData);
+router.put('/music/profile/:id', userAuthentication, updateData);
 
 // routes for password reset request and passowrd reset
 router.post("/music/requestReset", requestReset);

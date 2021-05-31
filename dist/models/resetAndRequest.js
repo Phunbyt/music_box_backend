@@ -8,10 +8,11 @@ const registrationSchema_1 = __importDefault(require("../schema/registrationSche
 const resetTokenSchema_1 = __importDefault(require("../schema/resetTokenSchema"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const crypto_1 = __importDefault(require("crypto"));
-const sendemail_1 = __importDefault(require("../utils/validator/sendemail/sendemail"));
+const sendemail_1 = __importDefault(require("../utils/sendemail/sendemail"));
 const bcryptSalt = process.env.BCRYPT_SALT;
-async function requestPasswordReset(emailAddress) {
-    const user = await registrationSchema_1.default.findOne({ emailAddress });
+async function requestPasswordReset(email) {
+    console.log(email);
+    const user = await registrationSchema_1.default.findOne({ email });
     if (!user) {
         throw new Error("User doesn't exist");
     }
@@ -27,10 +28,10 @@ async function requestPasswordReset(emailAddress) {
         createdAt: Date.now(),
     }).save();
     const link = `${process.env.CLIENT_URL}/passwordreset?token=${resetToken}&id=${user._id}`;
-    await sendemail_1.default(user.emailAddress, "Password Reset Request", {
-        name: `${user.firstname} ${user.lastname}`,
+    await sendemail_1.default(user.email, "Password Reset Request", {
+        name: `${user.firstName} ${user.lastName}`,
         link: link,
-    }, "../../src/utils/template/requestResetPassword.handlebars")
+    }, "../sendemail/template/requestResetPassword.handlebars")
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     return link;
@@ -51,9 +52,9 @@ async function resetPassword(userId, token, password, confirmPassword) {
     const hash = await bcryptjs_1.default.hash(password, Number(bcryptSalt));
     await registrationSchema_1.default.updateOne({ _id: userId }, { $set: { password: hash } }, { new: true });
     const user = await registrationSchema_1.default.findById({ _id: userId });
-    await sendemail_1.default(user.emailAddress, "Password Reset Successfully", {
-        name: `${user.firstname} ${user.lastname}`,
-    }, "../../src/utils/template/resetPassword.handlebars")
+    await sendemail_1.default(user.email, "Password Reset Successfully", {
+        name: `${user.firstName} ${user.lastName}`,
+    }, "../sendemail/template/resetPassword.handlebars")
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     await passwordResetToken.deleteOne();

@@ -3,11 +3,12 @@ import NewUser from "../schema/registrationSchema";
 import Token from "../schema/resetTokenSchema";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import sendEmail from "../utils/validator/sendemail/sendemail";
+import sendEmail from "../utils/sendemail/sendemail";
 const bcryptSalt = process.env.BCRYPT_SALT;
 
-async function requestPasswordReset(emailAddress: string) {
-  const user = await NewUser.findOne({ emailAddress });
+async function requestPasswordReset(email: string) {
+    console.log(email)
+  const user = await NewUser.findOne({ email });
   if (!user) {
     throw new Error("User doesn't exist");
   }
@@ -28,16 +29,16 @@ async function requestPasswordReset(emailAddress: string) {
 
   const link = `${process.env.CLIENT_URL}/passwordreset?token=${resetToken}&id=${user._id}`;
   await sendEmail(
-    user.emailAddress,
+    user.email,
     "Password Reset Request",
     {
-      name: `${user.firstname} ${user.lastname}`,
+      name: `${user.firstName} ${user.lastName}`,
       link: link,
     },
-    "../../src/utils/template/requestResetPassword.handlebars"
+    "../sendemail/template/requestResetPassword.handlebars"
   )
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    .then((res: {}) => console.log(res))
+    .catch((err: {}) => console.log(err));
 
   return link;
 }
@@ -72,15 +73,15 @@ async function resetPassword(
   const user = await NewUser.findById({ _id: userId });
 
   await sendEmail(
-    user.emailAddress,
+    user.email,
     "Password Reset Successfully",
     {
-      name: `${user.firstname} ${user.lastname}`,
+      name: `${user.firstName} ${user.lastName}`,
     },
-    "../../src/utils/template/resetPassword.handlebars"
+    "../sendemail/template/resetPassword.handlebars"
   )
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+    .then((res: {}) => console.log(res))
+    .catch((err: {}) => console.log(err));
 
   await passwordResetToken.deleteOne();
   return true;

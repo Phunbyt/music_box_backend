@@ -4,7 +4,7 @@ exports.reset = exports.requestReset = void 0;
 const resetAndRequest_1 = require("../models/resetAndRequest");
 async function requestReset(req, res, next) {
     try {
-        const user = await resetAndRequest_1.requestPasswordReset(req.body.emailAddress);
+        const user = await resetAndRequest_1.requestPasswordReset(req.body.email);
         res.send("Password request link was sent to your email");
     }
     catch (err) {

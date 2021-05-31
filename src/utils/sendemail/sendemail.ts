@@ -46,10 +46,10 @@ async function sendEmail(
       },
     });
     const mailOptions = {
-      from: "Music Box",
+      from: "roluwafunbi@gmail.com",
       to: userEmail,
-        subject: subject,
-      payload:payload,
+      subject: subject,
+      payload: payload,
       html: compiledTemplate(payload),
     };
     const result = await transporter.sendMail(mailOptions);

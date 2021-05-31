@@ -4,7 +4,7 @@ import { requestPasswordReset, resetPassword } from '../models/resetAndRequest'
 
 export async function requestReset(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await requestPasswordReset(req.body.emailAddress);
+      const user = await requestPasswordReset(req.body.email);
     res.send("Password request link was sent to your email");
 
     } catch (err) {
