@@ -3,7 +3,6 @@ import passport from "passport";
 import strategy from "passport-facebook"
 
 import NewUser from "../../schema/registrationSchema";
-import SocialUser from "../../schema/socialSchema"
 
 const { FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET } = process.env;
 const FacebookStrategy = strategy.Strategy;
@@ -20,23 +19,19 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log(profile)
         const email = profile.emails![0].value;
         let currentUser = await NewUser.findOne({ email: email });
         if (currentUser) {
           return done(null, currentUser, { statusCode: 200 });
         }
 
-
-        currentUser = await SocialUser.findOne({ email: email });
-        if (currentUser) {
-          return done(null, currentUser , { statusCode: 200 });
-        }
-
-        const userObj = new SocialUser({
+        const userObj = new NewUser({
           facebookId: profile.id,
           firstName: profile.name!.givenName,
           lastName: profile.name!.familyName,
           email,
+          password: "1234567"
         });
 
         currentUser = await userObj.save();

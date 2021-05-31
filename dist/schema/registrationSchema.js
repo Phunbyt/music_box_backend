@@ -6,6 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const userSchema = new mongoose_1.Schema({
+    googleId: {
+        type: String,
+        trim: true
+    },
+    facebookId: {
+        type: String,
+        trim: true
+    },
     firstName: {
         type: String,
         required: true,
@@ -20,13 +28,12 @@ const userSchema = new mongoose_1.Schema({
     },
     dateOfBirth: {
         type: Date,
-        required: true,
     },
+    country: String,
     gender: {
         type: String,
-        required: true,
         enum: {
-            values: ["male", "female", "non-binary"],
+            values: ['male', 'female', 'non-binary'],
             message: '{VALUE} is not a gender',
         }
     },
@@ -39,16 +46,18 @@ const userSchema = new mongoose_1.Schema({
     },
     password: {
         type: String,
-        required: true,
         trim: true,
+    },
+    token: {
+        type: String
     }
 }, {
     timestamps: true
 });
-userSchema.pre("save", async function (next) {
+userSchema.pre('save', async function (next) {
     const salt = await bcrypt_1.default.genSalt(10);
     this.password = await bcrypt_1.default.hash(this.password, salt);
     next();
 });
-const NewUser = mongoose_1.model("NewUser", userSchema);
+const NewUser = mongoose_1.model('NewUser', userSchema);
 exports.default = NewUser;

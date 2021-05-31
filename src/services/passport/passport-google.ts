@@ -1,9 +1,8 @@
 import { config } from 'dotenv';
 import passport from 'passport';
-import { Strategy } from 'passport-google-oauth20'
+import {Strategy}  from 'passport-google-oauth20';
 
 import NewUser from '../../schema/registrationSchema';
-import SocialUser from '../../schema/socialSchema'
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
@@ -24,17 +23,12 @@ passport.use(
           return done(null, currentUser, { statusCode: 200 });
         }
 
-
-        const socialUser = await SocialUser.findOne({email: email});
-        if (socialUser) {
-          return done(null, socialUser, { statusCode: 200 });
-        }
-
-        const userObj = new SocialUser({
+        const userObj = new NewUser({
           googleId: profile.id,
           firstName: profile.name!.givenName,
           lastName: profile.name!.familyName,
           email,
+          password: "1234567"
         });
         const user = await userObj.save();
 

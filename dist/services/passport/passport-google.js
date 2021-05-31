@@ -7,7 +7,6 @@ const dotenv_1 = require("dotenv");
 const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth20_1 = require("passport-google-oauth20");
 const registrationSchema_1 = __importDefault(require("../../schema/registrationSchema"));
-const socialSchema_1 = __importDefault(require("../../schema/socialSchema"));
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 dotenv_1.config();
 passport_1.default.use(new passport_google_oauth20_1.Strategy({
@@ -21,15 +20,12 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
         if (currentUser) {
             return done(null, currentUser, { statusCode: 200 });
         }
-        const socialUser = await socialSchema_1.default.findOne({ email: email });
-        if (socialUser) {
-            return done(null, socialUser, { statusCode: 200 });
-        }
-        const userObj = new socialSchema_1.default({
+        const userObj = new registrationSchema_1.default({
             googleId: profile.id,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             email,
+            password: "1234567"
         });
         const user = await userObj.save();
         return done(null, user, { statusCode: 201 });

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 require("../../services/passport/passport-facebook");
+const registrationSchema_1 = __importDefault(require("../../schema/registrationSchema"));
 const authRouter = express_1.default.Router();
 authRouter.get("/", passport_1.default.authenticate("facebook", {
     session: false,
@@ -15,8 +16,20 @@ authRouter.get("/callback", passport_1.default.authenticate("facebook", {
     session: false,
     // successRedirect: "/auth/facebook/callback/dashboard",
     failureRedirect: "/auth/facebook/callback/failure",
-}), function (req, res) {
-    res.send('success');
+}), async function (req, res) {
+    try {
+        const token = req.query.code;
+        const { user } = req;
+        const { email } = user;
+        const savedUser = await registrationSchema_1.default.findOne({ email: email });
+        savedUser.token = token;
+        const result = await savedUser.save();
+        console.log('myEmail', email);
+        res.send('success');
+    }
+    catch (error) {
+        console.log(error);
+    }
 });
 authRouter.get("/failure", (req, res) => {
     res.status(401).json({
