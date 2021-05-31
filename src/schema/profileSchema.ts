@@ -1,15 +1,15 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 const profileSchema = new Schema({
     email: {
         type: String,
         required: true,
     },
-    firstname: {
+    firstName: {
         type: String,
         required: true,
     },
-    lastname: {
+    lastName: {
         type: String,
         required: true,
     },
@@ -27,6 +27,6 @@ const profileSchema = new Schema({
         required: true,
     }
 });
-const Profile = model("Profile", profileSchema);
+const Profile = model('NewUser', profileSchema);
 
 export default Profile;
