@@ -12,7 +12,7 @@ import authGoogleRouter from './routes/social-route/google-auth'
 import authFacebookRouter from './routes/social-route/facebook-auth'
 
 import { connect } from './config/database/dbConnection';
-//import { connectDB } from './config/database/dbConnection';
+
 
 const app = express();
 connect();
