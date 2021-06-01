@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.disconnect = exports.connect = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-require("dotenv").config();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
 let database;
 const connect = () => {
     // add your own uri below
@@ -20,11 +21,11 @@ const connect = () => {
         useCreateIndex: true,
     });
     database = mongoose_1.default.connection;
-    database.once("open", async () => {
-        console.log("Connected to database");
+    database.once('open', async () => {
+        console.log('Connected to database');
     });
-    database.on("error", () => {
-        console.log("Error connecting to database");
+    database.on('error', () => {
+        console.log('Error connecting to database');
     });
 };
 exports.connect = connect;

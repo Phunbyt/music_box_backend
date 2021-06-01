@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "start-dev": "tsc && nodemon ./bin/www"
+    "start-dev": "tsc && nodemon ./bin/www",
+    "tsc": "tsc -p ./tsconfig.json",
+    "start:dev": "nodemon ./src/bin/www e -js ./dist/app.js",
+    "lint": "eslint ./src"
   },
+
   "dependencies": {
     "@types/cors": "^2.8.10",
     "@types/joi": "^17.2.3",
@@ -31,6 +34,9 @@
     "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.0",
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-typescript": "^7.13.0",

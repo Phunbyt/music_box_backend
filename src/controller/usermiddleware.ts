@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from 'express';
+import  {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import NewUser from '../schema/registrationSchema';
@@ -11,18 +11,18 @@ export const userAuthentication = async (req:Request | any, res:Response, next:N
             const decodedToken: any= await jwt.verify(token, process.env.JWT_SECRET_KEY as string);
             const user = await NewUser.findById({_id: decodedToken.id});
             if(!user){
-                return res.status(400).json('no token provided')
+                return res.status(400).json('no token provided');
             }else{
-                req.user = user
+                req.user = user;
             }
         }catch(err){
-            return res.status(400).json({'error':err})
+            return res.status(400).json({'error':err});
         }
         
         
     }else{
-        return res.status(400).json('not Authorized')
+        return res.status(400).json('not Authorized');
     }
     next();
 
-}
+};

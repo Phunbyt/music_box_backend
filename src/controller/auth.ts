@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
-import {validateLogin, validateUser} from '../utils/validator/userValidator'
-import jwt from 'jsonwebtoken'
+import {validateLogin, validateUser} from '../utils/validator/userValidator';
+import jwt from 'jsonwebtoken';
 import NewUser from '../schema/registrationSchema';
 import bcrypt from 'bcrypt';
-const dotenv = require('dotenv')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const dotenv = require('dotenv');
 dotenv.config();
 
 
@@ -20,8 +21,8 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
             return res.status(400).send('confirmPassword does not match password');
         }
         
-        const inputEmail = await NewUser.findOne({ email })
-        if (inputEmail) return res.status(400).send("User already exists");
+        const inputEmail = await NewUser.findOne({ email });
+        if (inputEmail) return res.status(400).send('User already exists');
         
         const user = await NewUser.create({
             firstName,
@@ -32,7 +33,7 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
             password
         });
 
-        res.status(201).send("Successfully added user");
+        res.status(201).send('Successfully added user');
     }
     catch (error) {
         res.status(400).json({ message: error.message });
@@ -42,15 +43,16 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
 export async function signIn(req: Request, res: Response, next: NextFunction) {
     try {
 
-        let { error } = validateLogin(req.body as object)
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        const { error } = validateLogin(req.body as object);
         if (error) {
-            return res.status(400).send(error.message)
+            return res.status(400).send(error.message);
         }
     
-        let user: any = await NewUser.findOne({email: req.body.email})
+        const user: any = await NewUser.findOne({email: req.body.email});
         if(!user) return res.status(400).send('Invalid emaill or password');
     
-        const validPassword = await bcrypt.compare(req.body.password, user.password)
+        const validPassword = await bcrypt.compare(req.body.password, user.password);
         if(!validPassword) return res.status(400).send('Invalid emaill or password');
     
         const token = jwt.sign({
@@ -71,7 +73,7 @@ export async function signIn(req: Request, res: Response, next: NextFunction) {
         });
     
     
-      } catch (error) {
-        res.status(500).send({message : `Error sigining you in`})
-      }
+    } catch (error) {
+        res.status(500).send({message : 'Error sigining you in'});
+    }
 }

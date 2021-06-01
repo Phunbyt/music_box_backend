@@ -25,7 +25,7 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             email,
-            password: "1234567"
+            password: '1234567'
         });
         const user = await userObj.save();
         return done(null, user, { statusCode: 201 });

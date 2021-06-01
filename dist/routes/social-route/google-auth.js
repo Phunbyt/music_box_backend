@@ -5,17 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
-require("../../services/passport/passport-google");
+require('../../services/passport/passport-google');
 const registrationSchema_1 = __importDefault(require("../../schema/registrationSchema"));
 const authRouter = express_1.default.Router();
-authRouter.get("/", passport_1.default.authenticate("google", {
+authRouter.get('/', passport_1.default.authenticate('google', {
     session: false,
-    scope: ["profile", "email"],
+    scope: ['profile', 'email'],
 }));
-authRouter.get("/callback", passport_1.default.authenticate("google", {
+authRouter.get('/callback', passport_1.default.authenticate('google', {
     session: false,
     // successRedirect: "/auth/google/callback/dashboard",
-    failureRedirect: "/auth/google/callback/failure",
+    failureRedirect: '/auth/google/callback/failure',
 }), async function (req, res) {
     try {
         const token = req.query.code;
@@ -31,10 +31,10 @@ authRouter.get("/callback", passport_1.default.authenticate("google", {
         console.log(error);
     }
 });
-authRouter.get("/failure", (req, res) => {
+authRouter.get('/failure', (req, res) => {
     res.status(401).json({
-        status: "failed",
-        message: "you are not authorized ",
+        status: 'failed',
+        message: 'you are not authorized ',
     });
 });
 exports.default = authRouter;
