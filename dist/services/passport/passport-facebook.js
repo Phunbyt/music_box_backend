@@ -13,8 +13,8 @@ dotenv_1.config();
 passport_1.default.use(new FacebookStrategy({
     clientID: FACEBOOK_CLIENT_ID,
     clientSecret: FACEBOOK_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback",
-    profileFields: ["id", "displayName", "name", "gender", "email"]
+    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'name', 'gender', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         console.log(profile);
@@ -28,7 +28,7 @@ passport_1.default.use(new FacebookStrategy({
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             email,
-            password: "1234567"
+            password: '1234567'
         });
         currentUser = await userObj.save();
         return done(null, currentUser, { statusCode: 201 });
