@@ -8,40 +8,38 @@ interface Song{
 
 export const getPlayList = async (req: Request, res: Response) => {
     try {
+        const currentUser: any = req.user ? req.user : null;
         const playList:any = await PlayListModel.findById(req.params.id);
         if (!playList) {
             return res
                 .status(404)
                 .json({ message: 'Playlist not found or it may have been deleted' });
         }
-        const currentUser: any = req.user ? req.user : null;
-        if(playList.category === 'private' && currentUser._id !== playList.owner ){
-            res.status(403).json({status:'forbidden', message:'playlist is private'});
-        }else if (playList.category === 'public' && currentUser._id !== playList.owner){
-            res.status(200).json({ status: 'success', data: playList });
-        }else if (playList.category === 'private' && currentUser._id === playList.owner){
-            res.status(200).json({ status: 'success', data: playList });
+        
+        if(playList.category ==='private'){
+            if(playList['owner'] == currentUser['_id']){
+                res.status(200).json({ status: "success", data: playList });
+            }else{
+                res.status(403).json({status:"error", message:"access denied, playlist is private"});
+            }
         }
-        res.status(200).json({ status: 'success', data: playList });
+        res.status(200).json({ status: "success", data: playList });
+        
     } catch (error) {
-        res.status(500).send({ message: 'internal server error' });
+        res.status(500).send({ message: 'internal server error', status:error.message});
     }
 };
 
 export const getAllPlayLists = async (req:Request, res:Response)=>{
     try{
-        const allPlayLists:any = await PlayListModel.find({});
-        if(!allPlayLists) return res.status(404).json({status:'error', message:'no playlists'});
         const currentUser: any = req.user ? req.user : null;
-        // eslint-disable-next-line prefer-const
-        let allLists:Record<string,any>[] = [];
-        //allPlayLists.filter((playList:any) => playList.owner === currentUser._id);
-        
-        
+        const query = { owner: currentUser._id  };
+        const allPlayLists:any = await PlayListModel.find(query);
+        if(!allPlayLists) return res.status(404).json({status:'error', message:'no playlists'});
         res.status(200).json({allPlayLists});
     }catch(error){
         res.status(500).send({ message: 'internal server error', 'error':error.message});
-    }
+    };
 };
 
 //Create a new playlist
@@ -87,9 +85,7 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
         return res.status(404).send('Playlist does not exist');
     }
     const currentUser: any = req.user ? req.user : null;
-    if (currentUser._id !== playList.owner && playList.category ==='private') {
-        return res.status(403).json({ message: 'access denied', status: 'error' });
-    }
+    
     const newSong:any = new SongModel({
         title:req.body.title
     });
@@ -103,14 +99,31 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
     if(exist.length){
         return res.status(400).send('Cannot add a song twice');
     }
-    
-    playList.songs.push(newSong);
-    playList = await playList.save();
+    if (playList.category === "private") {
+        if(currentUser._id == playList.owner){
+             playList.songs.push(newSong);
+             playList = await playList.save();
+            return res.status(201).json({
+             message: `Successfully added song to ${playList.name}`,
+             data: playList,
+            });
+        }else{
+            return res.status(403).json({
+                message:'access denied',
+                status:'forbidden'
+            })
+        }
+    }else{
+         playList.songs.push(newSong);
+         playList = await playList.save();
+        return res.status(201).json({
+         message: `Successfully added song to ${playList.name}`,
+         data: playList,
+        });
+    }
+   
 
-    res.status(201).json({
-        message:`Successfully added song to ${playList.name}`,
-        data:playList
-    });
+    
 
 };
 
@@ -118,13 +131,11 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
 export const deletePlayList = async (req:Request, res:Response) =>{
     let playList: any = await PlayListModel.findOne({ _id: req.params.id });
     const currentUser: any = req.user ? req.user : null;
-    if (currentUser._id !== playList.owner) {
+    if (currentUser._id != playList.owner) {
         return res
             .status(403)
             .json({ status: 'forbidden', message: 'access denied' });
     }
-    
-    
     playList = await PlayListModel.deleteOne({_id:req.params.id});
 
     res.status(200).json({'message': `Deleted ${playList.name} successfully`, 'status':'success'});
@@ -138,23 +149,27 @@ export const deleteSongFromPlayList = async (req:Request, res:Response) =>{
             return res.status(404).send('Playlist does not exist');
         }
         const currentUser: any = req.user ? req.user : null;
-        if (currentUser._id !== playList.owner) {
-            return res
-                .status(403)
-                .json({ status: 'forbidden', message: 'access denied' });
-        }
+        
         const newSong:any = new SongModel({
             title:req.body.title
         });
         const toDelete:any = playList.songs.filter((item:Song)=>item.title ===newSong.title)[0];
         if(!toDelete)return res.status(404).send('Song doesn\'t exist in the playlist');
+        if(currentUser._id == playList.owner){
+            const idx = playList.songs.indexOf(toDelete);
+            playList.songs.splice(idx, 1);
+            playList = await playList.save();
+            res.status(200).json({ message: `Deleted ${newSong.title}` });
+        }
+        
+         return res
+          .status(403)
+          .json({ status: "forbidden", message: "access denied" });
         
         
-        const idx = playList.songs.indexOf(toDelete);
-        playList.songs.splice(idx,1);
-        playList = await playList.save();
-
-        res.status(200).json({'message':`Deleted ${newSong.title}`});
+        
+        
+        
 
     }catch(error){
         res.status(400).send('Error deleting');
@@ -166,14 +181,16 @@ export const deleteAllSongsFromPlayList = async (req:Request, res:Response) =>{
         let playList:any = await PlayListModel.findById(req.params.id);
         if(!playList) return res.status(404).send({'message':'playlist doesnt not exist', 'status':'error'});
         const currentUser: any = req.user ? req.user : null;
-        if (currentUser._id !== playList.owner) {
-            res
-                .status(403)
-                .json({ status: 'forbidden', message: 'access denied'});
+        if(currentUser._id == playList.owner){
+            playList.songs.splice(0);
+            playList = await playList.save();
+            res.status(200).json({ message: 'Deleted all songs' });
         }
-        playList.songs.splice(0);
-        playList = await playList.save();
-        res.status(200).json({'message':'Deleted all songs in the playlist', 'status':'success'});
+        
+         return res
+          .status(403)
+          .json({ status: "forbidden", message: "access denied" });
+        
     }
     catch(error){
         res.status(500).json({message:error.message, status:'error'});

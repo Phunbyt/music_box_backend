@@ -10,14 +10,10 @@ const genreSchema_1 = __importDefault(require("../../schema/genreSchema"));
 require('dotenv').config();
 const getGenre = async (url) => {
     const database = await genreSchema_1.default.find({});
-    console.log('database', database);
     const dataCount = Object.keys(database).length;
-    console.log('count', dataCount);
     if (dataCount === 0) {
         const result = await axios_1.default.get(url);
         const data = result.data.data;
-        console.log(data);
-        console.log('result:', typeof data);
         data.forEach(async (element) => {
             let fetchedGenre = new genreSchema_1.default({
                 id: element.id,
