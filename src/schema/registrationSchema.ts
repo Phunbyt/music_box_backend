@@ -1,11 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const userSchema = new mongoose_1.Schema({
+import { Schema, model } from 'mongoose';
+import { user } from '../interfaces/userinterface';
+import bcrypt from 'bcrypt';
+
+const userSchema = new Schema<user>({
     googleId: {
         type: String,
         trim: true
@@ -54,10 +51,15 @@ const userSchema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
-userSchema.pre('save', async function (next) {
-    const salt = await bcrypt_1.default.genSalt(10);
-    this.password = await bcrypt_1.default.hash(this.password, salt);
+
+userSchema.pre('save', async function(next){
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 });
-const NewUser = mongoose_1.model('NewUser', userSchema);
-exports.default = NewUser;
+
+const NewUser = model('NewUser', userSchema);
+
+export default NewUser;
+
+

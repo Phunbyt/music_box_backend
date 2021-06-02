@@ -3,21 +3,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDB = void 0;
+exports.disconnect = exports.connect = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-require("dotenv").config();
-let URI = process.env.MONGODB_URI;
-const connectDB = () => {
-    mongoose_1.default
-        .connect(URI, {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
+let database;
+const connect = () => {
+    // add your own uri below
+    const uri = process.env.MONGODB_URI;
+    if (database) {
+        return;
+    }
+    mongoose_1.default.connect(uri, {
         useNewUrlParser: true,
-        useCreateIndex: true,
         useFindAndModify: false,
         useUnifiedTopology: true,
-    })
-        .then(() => {
-        console.log("connecting to database");
-    })
-        .catch((err) => console.log(err));
+        useCreateIndex: true,
+    });
+    database = mongoose_1.default.connection;
+    database.once('open', async () => {
+        console.log('Connected to database');
+    });
+    database.on('error', () => {
+        console.log('Error connecting to database');
+    });
 };
-exports.connectDB = connectDB;
+exports.connect = connect;
+const disconnect = () => {
+    if (!database) {
+        return;
+    }
+    mongoose_1.default.disconnect();
+};
+exports.disconnect = disconnect;

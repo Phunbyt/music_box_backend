@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { changePasswordValidator } from '../utils/validator/changePasswordValidator';
-import newusers from '../schema/changePasswordSchema';
+import NewUser from '../schema/registrationSchema';
 import { passwordChange } from '../utils/helper/changePassword';
 import bcrypt from 'bcrypt';
 
@@ -11,12 +11,13 @@ export const changePassword = async (
 	res: Response
 ): Promise<Response<unknown, Record<string, unknown>>> => {
 	const id = req.params.id;
+	console.log(id);
 
 	const { error } = changePasswordValidator(req.body);
 	if (error) return res.status(400).send({ message: error.details[0].message });
 
 	try {
-		const user: Record<any, any> | null = await newusers.findById(id);
+		const user: Record<any, any> | null = await NewUser.findOne({ _id: req.params.id });
 		console.log('user', user);
 		console.log('current', req.body.oldPassword);
 

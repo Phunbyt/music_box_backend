@@ -5,17 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.changePassword = void 0;
 const changePasswordValidator_1 = require("../utils/validator/changePasswordValidator");
-const changePasswordSchema_1 = __importDefault(require("../schema/changePasswordSchema"));
+const registrationSchema_1 = __importDefault(require("../schema/registrationSchema"));
 const changePassword_1 = require("../utils/helper/changePassword");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const saltRounds = 10;
 const changePassword = async (req, res) => {
     const id = req.params.id;
+    console.log(id);
     const { error } = changePasswordValidator_1.changePasswordValidator(req.body);
     if (error)
         return res.status(400).send({ message: error.details[0].message });
     try {
-        const user = await changePasswordSchema_1.default.findById(id);
+        const user = await registrationSchema_1.default.findOne({ _id: req.params.id });
         console.log('user', user);
         console.log('current', req.body.oldPassword);
         if (!user)
