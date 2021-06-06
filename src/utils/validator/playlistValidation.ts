@@ -5,6 +5,10 @@ export const ValidatePlayList = (obj: Record<string, any>) => {
         songs: Joi.array(),
         category: Joi.string().required().valid('private', 'public'),
         genre: Joi.string(),
+        // likes:Joi.array(),
+        // likesCount:Joi.number(),
+        // listens: Joi.array(),
+        // listensCount:Joi.number()
     });
 
     return schema.validate(obj);

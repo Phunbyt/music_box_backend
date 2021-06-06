@@ -33,7 +33,7 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
             password
         });
 
-        res.status(201).send('Successfully added user');
+        res.status(201).json({message:"User Created Successfully", user});
     }
     catch (error) {
         res.status(400).json({ message: error.message });

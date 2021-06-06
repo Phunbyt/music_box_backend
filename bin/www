@@ -14,8 +14,10 @@ var http = require('http');
 require('dotenv').config();
 /**
  * Get port from environment and store in Express.
- */
+ */ 
 
+const {connect} = require('../dist/config/database/dbConnection');
+connect()
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 

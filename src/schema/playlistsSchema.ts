@@ -5,6 +5,8 @@ const songsSchema = new mongoose.Schema({
         required: true
     },
 }, {timestamps:true});
+export const SongModel = mongoose.model('song', songsSchema);
+
 const playListSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -28,10 +30,29 @@ const playListSchema = new mongoose.Schema({
         required:true,
         ref: 'NewUser'
     }],
+    listens:{
+        type:Array 
+    },
+    likesCount:Number,
+    listensCount:Number,
     owner:{
-        type:String
+        type:mongoose.Schema.Types.ObjectId
     }
 },{timestamps:true});
 
 export const PlayListModel = mongoose.model('playlist', playListSchema);
-export const SongModel = mongoose.model('song', songsSchema);
+
+const artistSchema = new mongoose.Schema({
+    name:String,
+    artistId: String,
+    listensCount:Number
+
+})
+const albumSchema = new mongoose.Schema({
+    name:String, 
+    albumId:String,
+    listensCount:Number
+})
+
+export const AlbumModel = mongoose.model('Album', albumSchema)
+export const ArtistModel = mongoose.model('Artist', artistSchema)
