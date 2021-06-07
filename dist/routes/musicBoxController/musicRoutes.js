@@ -12,6 +12,7 @@ const usermiddleware_1 = require("../../controller/usermiddleware");
 const playlistLike_1 = require("../../controller/playlistLike");
 const requestreset_1 = require("../../controller/requestreset");
 const playlistController_1 = require("../../controller/playlistController"); //Play lists
+const album_1 = require("../../controller/album");
 const router = express_1.default.Router();
 // Genre routes
 router.get('/music/genres', usermiddleware_1.userAuthentication, genres_1.genres);
@@ -36,4 +37,8 @@ router.delete('/playlist/removeallsongs/:id', usermiddleware_1.userAuthenticatio
 router.delete('/playlist/removeplaylist/:id', usermiddleware_1.userAuthentication, playlistController_1.deletePlayList); //Delete a playlist
 //change password router
 router.put('/music/changePassword/:id', usermiddleware_1.userAuthentication, changePassword_1.changePassword);
+// Album
+router.post('/album', usermiddleware_1.userAuthentication, album_1.findAlbum);
+router.put('/album/like/:id', usermiddleware_1.userAuthentication, album_1.likeAlbum);
+router.put('/album/listened/:id', usermiddleware_1.userAuthentication, album_1.listenedToAlbum);
 exports.default = router;
