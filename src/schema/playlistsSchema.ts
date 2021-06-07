@@ -1,10 +1,24 @@
 import mongoose from 'mongoose';
 const songsSchema = new mongoose.Schema({
     title: {
-        type: String,
-        required: true
+        type: String
     },
+    songId:{
+        type:String,
+
+        
+    }, 
+    artist:{
+        type:String
+    },
+    album:{
+        type:String
+    },
+    img:{
+        type:String
+    }
 }, {timestamps:true});
+
 export const SongModel = mongoose.model('song', songsSchema);
 
 const playListSchema = new mongoose.Schema(
@@ -55,17 +69,3 @@ const playListSchema = new mongoose.Schema(
 
 export const PlayListModel = mongoose.model('playlist', playListSchema);
 
-const artistSchema = new mongoose.Schema({
-    name:String,
-    artistId: String,
-    listensCount:Number
-
-})
-const albumSchema = new mongoose.Schema({
-    name:String, 
-    albumId:String,
-    listensCount:Number
-})
-
-export const AlbumModel = mongoose.model('Album', albumSchema)
-export const ArtistModel = mongoose.model('Artist', artistSchema)

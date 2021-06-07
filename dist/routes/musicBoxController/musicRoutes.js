@@ -11,9 +11,8 @@ const profile_1 = require("../../controller/profile");
 const usermiddleware_1 = require("../../controller/usermiddleware");
 const playlistLike_1 = require("../../controller/playlistLike");
 const requestreset_1 = require("../../controller/requestreset");
-const playlistController_1 = require("../../controller/playlistController");
-const artist_1 = require("../../controller/artist"); //Play lists
 const playlistController_1 = require("../../controller/playlistController"); //Play lists
+const artist_1 = require("../../controller/artist"); //Play lists
 const album_1 = require("../../controller/album");
 const router = express_1.default.Router();
 // Genre routes
@@ -27,8 +26,6 @@ router.put("/likePublicPost/:id", usermiddleware_1.userAuthentication, playlistL
 router.get("/music/profile/:id", usermiddleware_1.userAuthentication, profile_1.getSingleData);
 router.put("/music/profile/:id", usermiddleware_1.userAuthentication, profile_1.updateData);
 // routes for password reset request and passowrd reset
-router.post("/music/requestReset", requestreset_1.requestReset);
-router.post("/music/reset", requestreset_1.reset);
 router.post('/music/requestReset', requestreset_1.requestReset);
 router.post('/music/reset', requestreset_1.reset);
 //Routes for artists
@@ -49,7 +46,7 @@ router.post('/listen/song', usermiddleware_1.userAuthentication, playlistControl
 //get most played
 router.get('/mostplayed', playlistController_1.getMostPlayed);
 //change password router
-router.put('/music/changePassword/:id', usermiddleware_1.userAuthentication, changePassword_1.changePassword);
+router.put("/music/changePassword/:id", usermiddleware_1.userAuthentication, changePassword_1.changePassword);
 // Album
 router.post('/album', usermiddleware_1.userAuthentication, album_1.findAlbum);
 router.put('/album/like/:id', usermiddleware_1.userAuthentication, album_1.likeAlbum);

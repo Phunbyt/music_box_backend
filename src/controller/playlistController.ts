@@ -3,9 +3,13 @@ import {PlayListModel,SongModel} from '../schema/playlistsSchema';
 import Artist from '../schema/artistSchema';
 import Album from '../schema/albumSchema'
 import {ValidatePlayList, ValidateSong} from '../utils/validator/playlistValidation';
+import axios from 'axios'
 interface Song{
   _id:string,
-  title:string
+  title:string, 
+  album:string,
+  songId:string,
+  img:string
 }
 
 export const getPlayList = async (req: Request, res: Response) => {
@@ -88,21 +92,29 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
     const currentUser: any = req.user ? req.user : null;
     
     const newSong:any = new SongModel({
-        title:req.body.title
+        songId:req.body.songId
     });
 
-    const {error} = ValidateSong(req.body);
-    if(error){
-        return res.status(400).send(error.details[0].message);
-    }
+    const songRes = await axios.get(`https://api.deezer.com/track/${newSong.songId}`);
+     let song:Record<string,any> = {};
+     song.id = songRes.data.id;
+     song.title = songRes.data.title;
+     song.artist = songRes.data.artist.name;
+     song.album = songRes.data.album.title;
+     song.img = songRes.data.album.cover_medium;
+    console.log(song)
+    // const {error} = ValidateSong(req.body);
+    // if(error){
+    //     return res.status(400).send(error.details[0].message);
+    // }
 
-    const exist = playList.songs.filter((item:Song)=>item.title ===newSong.title);
+    const exist = playList.songs.filter((item:Song)=>item.songId ==newSong.songId);
     if(exist.length){
         return res.status(400).send('Cannot add a song twice');
     }
     if (playList.category === 'private') {
         if(currentUser._id == playList.owner){
-             playList.songs.push(newSong);
+             playList.songs.push(song);
              playList = await playList.save();
             return res.status(201).json({
              message: `Successfully added song to ${playList.name}`,
@@ -115,16 +127,13 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
             })
         }
     }else{
-         playList.songs.push(newSong);
+         playList.songs.push(song);
          playList = await playList.save();
         return res.status(201).json({
          message: `Successfully added song to ${playList.name}`,
          data: playList,
         });
     }
-   
-
-    
 
 };
 

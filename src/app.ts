@@ -13,17 +13,17 @@ import authFacebookRouter from './routes/social-route/facebook-auth';
 const app = express();
 //connect();
 import dotenv from 'dotenv';
-import { connect } from './config/database/dbConnection';
-import {dbConnect} from './__test__/db/mongoMemoryServer'
+// import { connect } from './config/database/dbConnection';
+// import {dbConnect} from './__test__/db/mongoMemoryServer'
 
 
 
-dotenv.config();
-if (process.env.NODE_ENV === "test") {
-  dbConnect();
-} else {
-    connect();
-}
+// dotenv.config();
+// if (process.env.NODE_ENV === "test") {
+//   dbConnect();
+// } else {
+//     connect();
+// }
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
