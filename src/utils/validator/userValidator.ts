@@ -1,16 +1,16 @@
 import Joi from 'joi';
-import { user } from '../../interfaces/userinterface'
+import { user } from '../../interfaces/userinterface';
 
 export const validateLogin = (obj: Record<string, any>) => {
     const schema = Joi.object({
-    password: Joi.string()
-      .min(3)
-      .max(30)
-      .required(),
-    email: Joi.string().email().required(),
-    })
-    return schema.validate(obj)
-}
+        password: Joi.string()
+            .min(3)
+            .max(30)
+            .required(),
+        email: Joi.string().email().required(),
+    });
+    return schema.validate(obj);
+};
 
 
 export const validateUser = (user: user) => {
@@ -22,6 +22,6 @@ export const validateUser = (user: user) => {
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
         confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
-    })
+    });
     return Schema.validate(user);
-}
+};
