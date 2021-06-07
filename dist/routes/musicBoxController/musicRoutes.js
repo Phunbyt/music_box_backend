@@ -10,6 +10,7 @@ const changePassword_1 = require("../../controller/changePassword");
 const profile_1 = require("../../controller/profile");
 const usermiddleware_1 = require("../../controller/usermiddleware");
 const playlistLike_1 = require("../../controller/playlistLike");
+const search_1 = require("../../controller/search");
 const requestreset_1 = require("../../controller/requestreset");
 const playlistController_1 = require("../../controller/playlistController"); //Play lists
 const router = express_1.default.Router();
@@ -20,6 +21,8 @@ router.get('/music/genres/:id', usermiddleware_1.userAuthentication, genres_1.ge
 router.post('/music/signUp', auth_1.signUp);
 router.post('/music/signIn', auth_1.signIn);
 router.put('/likePublicPost/:id', usermiddleware_1.userAuthentication, playlistLike_1.likePublicPost);
+// routes for SEARCH
+router.get('/music/search/', search_1.search);
 // Profile route
 router.get('/music/profile/:id', usermiddleware_1.userAuthentication, profile_1.getSingleData);
 router.put('/music/profile/:id', usermiddleware_1.userAuthentication, profile_1.updateData);

@@ -8,8 +8,8 @@ export const likePublicPost = async (req: Request | any,res:Response) => {
     
         const toLike = await PlayListModel.findOne(
             {_id:req.params.id,
-                category:'public',
-                likes:{$in:req.user._id}}).exec();
+            category:'public',
+            likes:{$in:req.user._id}}).exec();
         // console.log(toLike);
         if(!toLike){
             const addedLike = await PlayListModel.findOneAndUpdate(

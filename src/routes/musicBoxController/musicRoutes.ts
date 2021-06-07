@@ -5,6 +5,7 @@ import { changePassword } from '../../controller/changePassword';
 import { getSingleData, updateData } from '../../controller/profile';
 import { userAuthentication } from '../../controller/usermiddleware';
 import { likePublicPost } from '../../controller/playlistLike';
+import { search } from '../../controller/search';
 import {requestReset,reset} from '../../controller/requestreset';
 import {addSongToPlayList,createPlayList,deletePlayList,deleteAllSongsFromPlayList,deleteSongFromPlayList,getAllPlayLists,getPlayList } from '../../controller/playlistController'; //Play lists
 const router = express.Router();
@@ -17,6 +18,9 @@ router.get('/music/genres/:id',userAuthentication, genre);
 router.post('/music/signUp', signUp);
 router.post('/music/signIn', signIn);
 router.put('/likePublicPost/:id',userAuthentication,likePublicPost);
+
+// routes for SEARCH
+router.get('/music/search/', search);
 
 // Profile route
 router.get('/music/profile/:id', userAuthentication, getSingleData);
