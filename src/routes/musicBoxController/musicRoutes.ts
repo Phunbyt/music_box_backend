@@ -19,8 +19,7 @@ import {
  getMostPlayed
 } from "../../controller/playlistController"; //Play lists
 import { createArtist, likeArtist, listenedToArtist, searchArtist } from '../../controller/artist'; //Play lists
-
-
+import { findAlbum, likeAlbum, listenedToAlbum } from '../../controller/album';
 const router = express.Router();
 
 // Genre routes
@@ -75,5 +74,11 @@ router.post('/listen/song',userAuthentication, listenToSongInPlayList)
 router.get('/mostplayed', getMostPlayed)
 //change password router
 router.put("/music/changePassword/:id", userAuthentication, changePassword);
+
+// Album
+router.post('/album', userAuthentication, findAlbum);
+router.put('/album/like/:id', userAuthentication, likeAlbum);
+router.put('/album/listened/:id', userAuthentication, listenedToAlbum);
+
 
 export default router;
