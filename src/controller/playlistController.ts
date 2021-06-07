@@ -170,8 +170,8 @@ export const likeAlbum = async (req:Request,res:Response)=>{
 }
 
 export const getMostPlayed = async(req:Request, res:Response) =>{
-    const albums:any = await AlbumModel.find().sort({'listensCount':-1}).limit(5)
-    const artists:any = await ArtistModel.find().sort({'listensCount':-1}).limit(5)
+    const albums:any = await AlbumModel.find().sort({'listeningCount':-1}).limit(5)
+    const artists:any = await ArtistModel.find().sort({'listeningCount':-1}).limit(5)
     const playlists:any = await PlayListModel.find().sort({'listensCount':-1}).limit(5)
 
     res.status(200).json({mostPlayedAlbums:albums, mostPlayedArtist:artists, mostPlayedPlaylist:playlists})
