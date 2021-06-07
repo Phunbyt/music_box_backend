@@ -1,5 +1,6 @@
 import  {Request, Response, } from 'express';
-import {PlayListModel,SongModel, ArtistModel, AlbumModel} from '../schema/playlistsSchema';
+import {PlayListModel,SongModel, AlbumModel} from '../schema/playlistsSchema';
+import Artist from '../schema/artistSchema';
 import {ValidatePlayList, ValidateSong} from '../utils/validator/playlistValidation';
 interface Song{
   _id:string,
@@ -145,7 +146,7 @@ export const listenToSongInPlayList = async (req:Request, res:Response)=>{
 }
 //Like an artist 
 export const likeArtist = async (req:Request,res:Response)=>{
-    const artist:any = await ArtistModel.findById(req.params.id)
+    const artist:any = await Artist.findById(req.params.id)
     if (!artist) {
         return res.status(404).send('Artist does not exist');
     }
@@ -171,7 +172,7 @@ export const likeAlbum = async (req:Request,res:Response)=>{
 
 export const getMostPlayed = async(req:Request, res:Response) =>{
     const albums:any = await AlbumModel.find().sort({'listeningCount':-1}).limit(5)
-    const artists:any = await ArtistModel.find().sort({'listeningCount':-1}).limit(5)
+    const artists:any = await Artist.find().sort({'listeningCount':-1}).limit(5)
     const playlists:any = await PlayListModel.find().sort({'listensCount':-1}).limit(5)
 
     res.status(200).json({mostPlayedAlbums:albums, mostPlayedArtist:artists, mostPlayedPlaylist:playlists})
