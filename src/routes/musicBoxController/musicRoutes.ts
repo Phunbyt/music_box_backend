@@ -1,3 +1,4 @@
+
 import express from "express";
 import { genres, genre } from "../../controller/genres";
 import { signUp, signIn } from "../../controller/auth";
@@ -17,6 +18,9 @@ import {
  listenToSongInPlayList,
  getMostPlayed
 } from "../../controller/playlistController"; //Play lists
+import { createArtist, likeArtist, listenedToArtist, searchArtist } from '../../controller/artist'; //Play lists
+
+
 const router = express.Router();
 
 // Genre routes
@@ -33,8 +37,16 @@ router.get("/music/profile/:id", userAuthentication, getSingleData);
 router.put("/music/profile/:id", userAuthentication, updateData);
 
 // routes for password reset request and passowrd reset
-router.post("/music/requestReset", requestReset);
-router.post("/music/reset", reset);
+
+router.post('/music/requestReset', requestReset);
+router.post('/music/reset', reset);
+
+//Routes for artists
+router.post('/artist/search', userAuthentication, searchArtist); // Search for an artist
+router.post('/artist/create/:id', userAuthentication, createArtist); //Create an artist
+router.put('/artist/like/:id', userAuthentication, likeArtist); // like an artist
+router.put('/artist/listento/:id', userAuthentication, listenedToArtist); // listening to an artist
+
 
 //Routes for playlist
 router.get("/playlist/get/:id", userAuthentication, getPlayList);
