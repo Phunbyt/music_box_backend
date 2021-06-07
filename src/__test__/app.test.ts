@@ -30,7 +30,7 @@ describe("POST/ signup and signin", () => {
   }
   const res = await request(app).post("/music/signUp").send(user);
 
-  currentUser.ID = res.body.user._id
+  currentUser._id = res.body.user._id
   currentUser.email = res.body.user.email
   expect(res.status).toBe(201);
   expect(res.body.message).toBe("User Created Successfully");
@@ -96,7 +96,7 @@ describe('Test for playlist creation', ()=>{
      const res = await request(app)
       .delete(`/playlist/removeplaylist/${dataPreFilled._id}`)
       .set("Authorization", `Bearer ${currentUser.token}`);
-      if(currentUser.ID ==dataPreFilled.owner){
+      if(currentUser._id ==dataPreFilled.owner){
         expect(res.status).toBe(200);
       }else {
         expect(res.status).toBe(403)
@@ -118,6 +118,7 @@ describe('Activities in the playlist', ()=>{
 
   
   test("User should be able to delete song from playlist", async () => {
+    currentUser._id = dataPreFilled.owner
     await request(app)
      .post(`/playlist/addsongs/${dataPreFilled._id}`)
      .send({title:'New Song'})
