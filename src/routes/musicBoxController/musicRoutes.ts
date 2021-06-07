@@ -6,7 +6,8 @@ import { getSingleData, updateData } from '../../controller/profile';
 import { userAuthentication } from '../../controller/usermiddleware';
 import { likePublicPost } from '../../controller/playlistLike';
 import {requestReset,reset} from '../../controller/requestreset';
-import {addSongToPlayList,createPlayList,deletePlayList,deleteAllSongsFromPlayList,deleteSongFromPlayList,getAllPlayLists,getPlayList } from '../../controller/playlistController'; //Play lists
+import { addSongToPlayList, createPlayList, deletePlayList, deleteAllSongsFromPlayList, deleteSongFromPlayList, getAllPlayLists, getPlayList } from '../../controller/playlistController';
+import { createArtist, likeArtist, listenedToArtist, searchArtist } from '../../controller/artist'; //Play lists
 const router = express.Router();
 
 // Genre routes
@@ -26,6 +27,11 @@ router.put('/music/profile/:id', userAuthentication, updateData);
 router.post('/music/requestReset', requestReset);
 router.post('/music/reset', reset);
 
+//Routes for artists
+router.post('/artist/search', userAuthentication, searchArtist); // Search for an artist
+router.post('/artist/create/:id', userAuthentication, createArtist); //Create an artist
+router.put('/artist/like/:id', userAuthentication, likeArtist); // like an artist
+router.put('/artist/listento/:id', userAuthentication, listenedToArtist); // listening to an artist
 
 //Routes for playlist
 router.get('/playlist/get/:id', userAuthentication, getPlayList);

@@ -38,7 +38,6 @@ export const likePublicPost = async (req: Request | any,res:Response) => {
             'status':'failed ',
             'message': err.message
         });
-    }
-    
+    }  
     
 };
