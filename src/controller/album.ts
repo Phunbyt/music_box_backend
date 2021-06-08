@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import Album from '../schema/albumSchema';
-import { validateAlbum } from '../utils/validator/albumValidation';
 import axios from 'axios'
 
 
