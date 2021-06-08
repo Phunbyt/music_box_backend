@@ -7,7 +7,7 @@ import { userAuthentication } from '../../controller/usermiddleware';
 import { likePublicPost } from '../../controller/playlistLike';
 import {requestReset,reset} from '../../controller/requestreset';
 import { addSongToPlayList, createPlayList, deletePlayList, deleteAllSongsFromPlayList, deleteSongFromPlayList, getAllPlayLists, getPlayList } from '../../controller/playlistController'; //Play lists
-import { findAlbum, likeAlbum, listenedToAlbum } from '../../controller/album';
+import { findAlbum, likeAndUnlikeAlbum, listenedToAlbum } from '../../controller/album';
 const router = express.Router();
 
 // Genre routes
@@ -42,7 +42,7 @@ router.put('/music/changePassword/:id', userAuthentication, changePassword);
 
 // Album
 router.post('/album', userAuthentication, findAlbum);
-router.put('/album/like/:id', userAuthentication, likeAlbum);
+router.put('/album/like/:id', userAuthentication, likeAndUnlikeAlbum);
 router.put('/album/listened/:id', userAuthentication, listenedToAlbum);
 
 

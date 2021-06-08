@@ -39,6 +39,6 @@ router.delete('/playlist/removeplaylist/:id', usermiddleware_1.userAuthenticatio
 router.put('/music/changePassword/:id', usermiddleware_1.userAuthentication, changePassword_1.changePassword);
 // Album
 router.post('/album', usermiddleware_1.userAuthentication, album_1.findAlbum);
-router.put('/album/like/:id', usermiddleware_1.userAuthentication, album_1.likeAlbum);
+router.put('/album/like/:id', usermiddleware_1.userAuthentication, album_1.likeAndUnlikeAlbum);
 router.put('/album/listened/:id', usermiddleware_1.userAuthentication, album_1.listenedToAlbum);
 exports.default = router;

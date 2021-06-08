@@ -36,7 +36,7 @@ export const findAlbum = async (req: Request, res: Response, next:NextFunction) 
     }
 };
 
-export const likeAlbum = async (req: Request | any,res:Response) => {
+export const likeAndUnlikeAlbum = async (req: Request | any,res:Response) => {
      try {
        const toLike = await Album.findOne({
          _id: req.params.id,
