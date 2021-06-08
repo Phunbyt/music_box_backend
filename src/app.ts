@@ -13,6 +13,7 @@ import { connect } from './config/database/dbConnection';
 const app = express();
 connect();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'jade');
