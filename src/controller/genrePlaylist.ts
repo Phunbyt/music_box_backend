@@ -19,14 +19,14 @@ export const getGenrePlaylist = async (
     console.log("genre", genre);
     if (!genre) return res.status(400).send({ message: "No genre found" });
     let genreName = genre["name"];
-    console.log("genrename", genreName);
+    //console.log("genrename", genreName);
 
     //find playlist with the id from the playlist collection and retrive the genres from the results
     let playlist: Record<any, any> | null = await PlayListModel.find({
       genre: genreName,
     });
-    console.log("playlist", playlist);
-    let publicPlaylist: string[] = playlist.filter(
+    //console.log("playlist", playlist);
+    let publicPlaylist: string[] = playlist!.filter(
       (list: { [x: string]: string }) => {
         return list["category"] == "public";
       }
@@ -47,15 +47,15 @@ export const getGenreArtist = async (req: Request, res: Response) => {
   let id = req.params.id;
 
   try {
-    let genre = await Genre.findById({ _id: id });
-    console.log("incoming genre", genre);
+    let genre = await Genre.findOne({ id });
+    //console.log("incoming genre", genre);
 
     if (!genre) return res.status(400).send({ message: "Genre Not Found" });
     let genreID = genre["id"];
-    console.log("incoming genreID", genreID);
+    //console.log("incoming genreID", genreID);
     const url = `https://api.deezer.com/genre/${genreID}/artists`;
     const artist = await GenreArtist(url);
-    console.log("genreArtist", artist);
+    //console.log("genreArtist", artist);
     if (artist) {
       return res.status(200).json({ message: "Artist Genre", data: artist });
     } else {
