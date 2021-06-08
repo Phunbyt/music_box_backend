@@ -9,7 +9,7 @@ import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
 import dotenv from 'dotenv';
 import { connect } from './config/database/dbConnection';
-import {dbConnect} from './__test__/db/mongoMemoryServer'
+import {dbConnect} from './db/mongoMemoryServer'
 
 
 const app = express();

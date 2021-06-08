@@ -12,9 +12,17 @@ const passport_1 = __importDefault(require("passport"));
 const musicRoutes_1 = __importDefault(require("./routes/musicBoxController/musicRoutes"));
 const google_auth_1 = __importDefault(require("./routes/social-route/google-auth"));
 const facebook_auth_1 = __importDefault(require("./routes/social-route/facebook-auth"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const dbConnection_1 = require("./config/database/dbConnection");
+const mongoMemoryServer_1 = require("./db/mongoMemoryServer");
 const app = express_1.default();
-dbConnection_1.connect();
+dotenv_1.default.config();
+if (process.env.NODE_ENV === "test") {
+    mongoMemoryServer_1.dbConnect();
+}
+else {
+    dbConnection_1.connect();
+}
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '../views'));
 app.set('view engine', 'jade');

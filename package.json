@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start-dev": "tsc && nodemon ./bin/www",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "test": "jest --runInBand --verbose"
   },
   "dependencies": {
     "@types/cors": "^2.8.10",

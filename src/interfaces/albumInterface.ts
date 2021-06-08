@@ -1,10 +1,7 @@
-export interface albumInterface {
+export interface AlbumInterface {
     title: String;
     id: String;
-    artist: {
-        id: String;
-        name: String;
-    };
+    artist: Record<any, string>
     cover: String;
     cover_small: String;
     cover_medium: String;

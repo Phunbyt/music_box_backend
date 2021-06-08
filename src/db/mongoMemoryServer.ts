@@ -3,7 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 
 const mongoServer = new MongoMemoryServer();
 
-export const dbConnect = async () => {
+export const dbConnect = async (): Promise<void> => {
   const uri = await mongoServer.getUri();
 
   const mongooseOpts = {
@@ -16,7 +16,7 @@ export const dbConnect = async () => {
   await mongoose.connect(uri, mongooseOpts);
 };
 
-export const dbDisconnect = async () => {
+export const dbDisconnect = async ():Promise<void> => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
   await mongoServer.stop();

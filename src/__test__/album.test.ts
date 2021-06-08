@@ -1,38 +1,81 @@
-// import { dbConnect, dbDisconnect } from "./db/mongoMemoryServer";
-// import request from "supertest";
-// import app from "../app";
+import { dbConnect, dbDisconnect } from "../db/mongoMemoryServer";
+import { AlbumInterface } from '../interfaces/albumInterface';
+import request from "supertest";
+import app from "../app";
 
-// describe("create data / Update data", () => {
-//   it("Create a new organization", async () => {
-//     const res: request.Response = await request(app)
-//       .post("/add")
-//       .send(org)
-//       .set("authorization", `Bearer ${userToken}`);
-//     expect(res.status).toEqual(200);
-//     expect(res.body).toHaveProperty("newInfo");
-//     expect(res.body.newInfo).toHaveProperty("_id");
-//     expect(typeof res.body.newInfo === "object").toBe(true);
-//     expect(res.body.newInfo.organization).toBe("node ninja");
-//     id = res.body.newInfo._id;
-//     prefilled = {
-//       ...res.body.newInfo,
-//     };
-//   });
 
-//   it("should update an organization", async () => {
-//     org.organization = "edited ninja";
-//     const res: request.Response = await request(app)
-//       .put(`/update/${id}`)
-//       .send(org)
-//       .set("authorization", `Bearer ${userToken}`);
-//     expect(res.status).toEqual(200);
-//     expect(res.body).toHaveProperty("organization");
-//     expect(res.body).toHaveProperty("_id");
-//     expect(typeof res.body === "object").toBe(true);
-//     expect(res.body._id).toBe(id);
-//     expect(res.body.organization).toBe("edited ninja");
-//     prefilled = {
-//       ...res.body,
-//     };
-//   });
-// });
+
+let token;
+let albumId: string = "";
+let albumPrefilled: AlbumInterface | {} = {};
+const currentUser: Record<string, string> = {};
+
+
+
+beforeAll(async () => {
+    await dbConnect();
+});
+
+afterAll(async () => {
+    await dbDisconnect()
+});
+
+
+describe("POST/ signup and signin", () => {
+  test("test for signup", async () => {
+    const res = await request(app).post("/music/signUp").send({
+      firstName: "aderemi",
+      lastName: "amos",
+      dateOfBirth: "1990-09-12",
+      gender: "male",
+      email: "aderemiamos@gmail.com",
+      password: "12345678",
+      confirmPassword: "12345678",
+    });
+    expect(res.status).toBe(201);
+    expect(res.body.message).toBe("User Created Successfully");
+  });
+    
+  test("test for sign in", async () => {
+    const res = await request(app).post("/music/signIn").send({
+      email: "aderemiamos@gmail.com",
+      password: "12345678",
+    });
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe("success");
+    token = res.body.token;
+    currentUser.token = token;
+    expect(res.body.token).toBe(token);
+  });
+});
+
+
+describe("Find and create data / Update data", () => {
+    it("successfully searches for an album", async () => {
+      const queryParams = "twice as tall";
+      const result = await request(app)
+        .post(`/album?q=${queryParams}`)
+        .set("authorization", `Bearer ${token}`);
+      expect(result.status).toEqual(200);
+      expect(result.body.message).toEqual(
+        " Data successfully created" || "Data already in the database"
+      );
+      albumId = result.body.info[0]._id;
+    });
+});
+
+describe("", () => {
+    it("user successfully likes an album", async () => {
+      const result = await request(app)
+        .put(`/album/like/${albumId}`)
+        .set("authorization", `Bearer ${token}`);
+      expect(result.status).toEqual(200);
+    });
+
+  it("user successfully listens to song in an album", async () => {
+    const result = await request(app)
+      .put(`/album/listened/${albumId}`)
+      .set("authorization", `Bearer ${token}`);
+    expect(result.status).toEqual(200);
+  });
+});

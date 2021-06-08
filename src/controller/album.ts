@@ -7,7 +7,7 @@ import axios from 'axios'
 export const findAlbum = async (req: Request, res: Response, next:NextFunction) => {
     try {
         const albumT = req.query.q as string;
-        console.log(albumT)
+        
         let albumData = await Album.findOne({ title: albumT });
         
         if (!albumData) {
@@ -20,7 +20,7 @@ export const findAlbum = async (req: Request, res: Response, next:NextFunction) 
                     return item;
                 }
             });
-            console.log(output);
+            
             if(output.length == 0){
                 return res.status(400).json({status:'error', message:'Please enter a valid album name'});
             }
