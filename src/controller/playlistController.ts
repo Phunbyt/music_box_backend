@@ -203,7 +203,6 @@ export const deletePlayList = async (req:Request, res:Response) =>{
     const currentUser: any = req.user ? req.user : null;
     if (currentUser._id == playList.owner) {
         playList = await PlayListModel.deleteOne({_id:req.params.id});
-        await playList.save()
         return res.status(200).json({'message': `Deleted ${playList.name} successfully`, 'status':'success'});
     }
     return res
@@ -222,9 +221,9 @@ export const deleteSongFromPlayList = async (req:Request, res:Response) =>{
         const currentUser: any = req.user ? req.user : null;
         
         const newSong:any = new SongModel({
-            title:req.body.title
+            songId:req.body.songId
         });
-        const toDelete:any = playList.songs.filter((item:Song)=>item.title ===newSong.title)[0];
+        const toDelete:any = playList.songs.filter((item:Song)=>item.songId ===newSong.songId)[0];
         if(!toDelete)return res.status(404).send('Song doesn\'t exist in the playlist');
         if(currentUser._id == playList.owner){
             const idx = playList.songs.indexOf(toDelete);
@@ -249,7 +248,7 @@ export const deleteAllSongsFromPlayList = async (req:Request, res:Response) =>{
         if(currentUser._id == playList.owner){
             playList.songs.splice(0);
             playList = await playList.save();
-            res.status(200).json({ message: 'Deleted all songs' });
+            return res.status(200).json({ message: 'Deleted all songs' });
         }
         
          return res
@@ -258,7 +257,7 @@ export const deleteAllSongsFromPlayList = async (req:Request, res:Response) =>{
         
     }
     catch(error){
-        res.status(500).json({message:error.message, status:'error'});
+       return res.status(500).json({message:error.message, status:'error'});
     }
 
 };

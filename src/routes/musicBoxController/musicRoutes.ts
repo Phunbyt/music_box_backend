@@ -71,7 +71,7 @@ router.delete(
 //Like a playlist
 router.post('/listen/song',userAuthentication, listenToSongInPlayList)
 //get most played
-router.get('/mostplayed', getMostPlayed)
+router.get('/mostplayed', userAuthentication, getMostPlayed)
 //change password router
 router.put("/music/changePassword/:id", userAuthentication, changePassword);
 

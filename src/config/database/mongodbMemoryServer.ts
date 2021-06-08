@@ -11,7 +11,6 @@ export const testDbConnect = async () => {
   useUnifiedTopology: true,
  };
  await mongoose.connect(uri, mongooseOpts);
- console.log("connected to mongoose memory server");
 };
 export const dbDisconnect = async () => {
  await mongoose.connection.dropDatabase();

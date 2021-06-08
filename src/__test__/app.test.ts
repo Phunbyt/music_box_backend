@@ -1,7 +1,8 @@
-import { dataproc } from "googleapis/build/src/apis/dataproc";
 import request from "supertest";
+import axios from 'axios'
 import app from "../app";
-jest.setTimeout(60000);
+jest.setTimeout(120000);
+
 import {
  testDbConnect,
  dbDisconnect,
@@ -9,15 +10,18 @@ import {
 
 beforeAll(async () => {
  await testDbConnect();
- console.log("beforeAll", "i am here");
+ 
 });
 afterAll(async () => {
  await dbDisconnect();
 });
+
 let iden:any;
 let dataPreFilled:any;
 const currentUser: Record<string, any> = {};
+const song: Record<string, any> = {};
 describe("POST/ signup and signin", () => {
+  
  test("test for sign up", async () => {
   const user = {
    firstName: "aderemi",
@@ -52,6 +56,7 @@ describe("POST/ signup and signin", () => {
 
 describe('Test for playlist creation', ()=>{
   test('User should be able to create a playlist', async ()=>{
+  
     const playlist:any = {
       name:"The beatles",
       category:"public",
@@ -66,8 +71,7 @@ describe('Test for playlist creation', ()=>{
     expect(res.status).toBe(201);
     expect(res.body.status).toBe('success');
     dataPreFilled = res.body.data
-    console.log(res.body.data)
-    console.log(currentUser)
+    
     //id = res.body.data._id;
   })
   test('User should be able to get all playlists', async()=>{
@@ -90,25 +94,20 @@ describe('Test for playlist creation', ()=>{
 
   })
 
-  test('User should be able to delete a playlist', async()=>{
-    console.log(currentUser, dataPreFilled);
-    
-     const res = await request(app)
-      .delete(`/playlist/removeplaylist/${dataPreFilled._id}`)
-      .set("Authorization", `Bearer ${currentUser.token}`);
-      if(currentUser._id ==dataPreFilled.owner){
-        expect(res.status).toBe(200);
-      }else {
-        expect(res.status).toBe(403)
-      }
-      
-  })
-
-})
-
-describe('Activities in the playlist', ()=>{
+ 
   test('User should be able to add song to playlist', async ()=>{
-    const newSong = {title: 'A new song'}
+   
+    const newSong = { songId: "3135556" };
+    const songRes = await axios.get(
+     `https://api.deezer.com/track/${newSong.songId}`
+    );
+    
+    song.songId = songRes.data.id;
+    song.title = songRes.data.title;
+    song.artist = songRes.data.artist.name;
+    song.album = songRes.data.album.title;
+    song.img = songRes.data.album.cover_medium;
+    dataPreFilled.songs.push(song)
     const res = await request(app)
      .post(`/playlist/addsongs/${dataPreFilled._id}`)
      .send(newSong)
@@ -116,18 +115,21 @@ describe('Activities in the playlist', ()=>{
     expect(res.status).toBe(201)
   })
 
-  
-  test("User should be able to delete song from playlist", async () => {
-    currentUser._id = dataPreFilled.owner
-    await request(app)
-     .post(`/playlist/addsongs/${dataPreFilled._id}`)
-     .send({title:'New Song'})
-     .set("Authorization", `Bearer ${currentUser.token}`);
+ 
+  test("User should be able to delete a song from playlist", async () => {
+  const newSong = {
+    songId: "3135556"
+  };
+  let len = dataPreFilled.songs.length;
+  const todelete = dataPreFilled.songs.filter((s:any) => s.songId == newSong.songId)[0]
+  const index = dataPreFilled.songs.indexOf(todelete);
+  dataPreFilled.songs.splice(index,1)
    const res = await request(app)
     .delete(`/playlist/removesong/${dataPreFilled._id}`)
-    .send({title:'New Song'})
     .set("Authorization", `Bearer ${currentUser.token}`);
-   expect(res.status).toBe(200);
+    expect(dataPreFilled.songs.length).toBeLessThan(len)
+    
+    
   });
 
   test('User should be able to delete all songs from playlist', async ()=>{
@@ -135,4 +137,19 @@ describe('Activities in the playlist', ()=>{
                                   .set('Authorization', `Bearer ${currentUser.token}`)
     expect(res.status).toBe(200)
   })
+
+   test("User should be able to delete a playlist", async () => {
+   
+    const res = await request(app)
+     .delete(`/playlist/removeplaylist/${dataPreFilled._id}`)
+     .set("Authorization", `Bearer ${currentUser.token}`);
+    if (currentUser._id == dataPreFilled.owner) {
+     expect(res.status).toBe(200);
+    } else {
+     expect(res.status).toBe(403);
+    }
+   });
+
+
+
 })
