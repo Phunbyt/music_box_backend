@@ -94,29 +94,37 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
     const newSong:any = new SongModel({
         songId:req.body.songId
     });
+        const { error } = ValidateSong(req.body);
 
+if (error) {
+ return res.status(400).send(error.details[0].message);
+}
+let song: Record<string, any> = {};
+try{
     const songRes = await axios.get(`https://api.deezer.com/track/${newSong.songId}`);
-     let song:Record<string,any> = {};
-     song.id = songRes.data.id;
+     
+     song.songId = songRes.data.id;
      song.title = songRes.data.title;
      song.artist = songRes.data.artist.name;
      song.album = songRes.data.album.title;
      song.img = songRes.data.album.cover_medium;
     console.log(song)
-    // const {error} = ValidateSong(req.body);
-    // if(error){
-    //     return res.status(400).send(error.details[0].message);
-    // }
+
+}catch(err){
+    console.log(err)
+}
 
     const exist = playList.songs.filter((item:Song)=>item.songId ==newSong.songId);
     if(exist.length){
         return res.status(400).send('Cannot add a song twice');
     }
-    if (playList.category === 'private') {
+ 
+    if (playList.category == 'private') {
         if(currentUser._id == playList.owner){
+            
              playList.songs.push(song);
              playList = await playList.save();
-            return res.status(201).json({
+             return res.status(201).json({
              message: `Successfully added song to ${playList.name}`,
              data: playList,
             });
