@@ -100,7 +100,7 @@ export async function likeArtist(req: Request | any, res: Response) {
 
 export async function listenedToArtist(req: Request | any, res: Response) {
     try {
-        let count = 1
+        let count = 1 // used to track the amount of listeningTo an artist has.
         const playlist = await Artist.findOneAndUpdate(
             { _id: req.params.id },
             { $inc: { listeningCount: count } },

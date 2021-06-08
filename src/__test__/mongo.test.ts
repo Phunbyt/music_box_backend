@@ -28,13 +28,6 @@ let UserId: string;
 let artistFilled: artist | {} = {};
 let currentUser: Record<string, string> = {};
 
-// beforeAll(async () => {
-//     await dbConnect();
-// });
-// afterAll(async () => {
-//     await dbDisconnect()
-// });
-
 describe("POST/ signup and signin", () => {
   test("test for signup", async () => {
     const res = await request(app).post("/music/signUp").send({
