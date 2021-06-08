@@ -12,7 +12,11 @@ var debug = require('debug')('music-box-music-box-a:server');
 var http = require('http');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
+<<<<<<< HEAD
 const {connect} = require('../dist/config/database/dbConnection');
+=======
+var {connect} = require('../dist/config/database/dbConnection');
+>>>>>>> 859bea9acac9ce258c8ac9fa14c28e5861213056
 /**
  * Get port from environment and store in Express.
  */
@@ -23,7 +27,6 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
 var server = http.createServer(app);
 
 /**

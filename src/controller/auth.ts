@@ -33,11 +33,13 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
 			password
 		});
 
-		res.status(201).json({ message: 'User Created Successfully'});
-	}
-	catch (error) {
-		res.status(400).json({ message: error.message });
-	}
+        res.status(201).json({
+            message:'User Created Successfully', 
+        user: user});
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 }
 
 export async function signIn(req: Request, res: Response, next: NextFunction) {
