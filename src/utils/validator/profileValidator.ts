@@ -1,10 +1,10 @@
 import Joi from 'joi';
 
 export const profileJoiVal = Joi.object({
-    email: Joi.string().email().required(),
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
+    email: Joi.string().email(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
     dateOfBirth: Joi.date(),
-    country: Joi.string().required(),
-    gender: Joi.string().required()
+    country: Joi.string(),
+    gender: Joi.string()
 });

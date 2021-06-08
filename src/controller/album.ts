@@ -43,7 +43,7 @@ export const likeAndUnlikeAlbum = async (req: Request | any,res:Response) => {
        }).exec();
          
        if (!toLike) {
-         const addedLike = await Album.findOneAndUpdate(
+         const addedLike:any = await Album.findOneAndUpdate(
            { _id: req.params.id },
            { $push: { likes: req.user._id } },
            { new: true }
@@ -55,7 +55,7 @@ export const likeAndUnlikeAlbum = async (req: Request | any,res:Response) => {
              data: addedLike,
            });
        } else {
-           const removeLike = await Album.findOneAndUpdate(
+           const removeLike:any = await Album.findOneAndUpdate(
            { _id: req.params.id },
            { $pull: { likes: req.user._id } },
            { new: true }

@@ -7,19 +7,9 @@ import passport from 'passport';
 import router from './routes/musicBoxController/musicRoutes';
 import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
-import dotenv from 'dotenv';
-import { connect } from './config/database/dbConnection';
-import {dbConnect} from './db/mongoMemoryServer'
 
 
 const app = express();
-
-dotenv.config();
-if (process.env.NODE_ENV === "test") {
-  dbConnect();
-} else {
-    connect();
-}
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
