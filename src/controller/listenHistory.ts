@@ -7,7 +7,6 @@ require('dotenv').config();
 const getListeningHistory = async (req: Request, res: Response) => {
 	try {
 		const currentUser: Record<string, any> | undefined = req.user;
-        console.log(currentUser)
 		const query: Record<string, any> | undefined = { userId: currentUser!._id  };
 		const allListeningHistory = await ListeningHistory.find(query);
 		if(!allListeningHistory) return res.status(404).json({status:'error', message:'no listening history'});

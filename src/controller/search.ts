@@ -35,7 +35,7 @@ export const search = async (req: Request | any,res:Response) => {
 
                 //To get playlist from userDB
         const searchPlayList: Record<string, any> | null = await PlayListModel.find({name:{$regex:searchField, $options: '$i'}})
-        let searchPublicPlayList: any = searchPlayList.filter((list: {[x:string]: string}) =>{
+        let searchPublicPlayList: any = searchPlayList!.filter((list: {[x:string]: string}) =>{
             return list['category'] = 'public';
         })
 
