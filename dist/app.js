@@ -12,16 +12,6 @@ const passport_1 = __importDefault(require("passport"));
 const musicRoutes_1 = __importDefault(require("./routes/musicBoxController/musicRoutes"));
 const google_auth_1 = __importDefault(require("./routes/social-route/google-auth"));
 const facebook_auth_1 = __importDefault(require("./routes/social-route/facebook-auth"));
-const dbConnection_1 = require("./config/database/dbConnection");
-const mongodb_memory_server_1 = require("./db/mongodb-memory-server");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-if (process.env.NODE_ENV === "test") {
-    mongodb_memory_server_1.dbConnect();
-}
-else {
-    dbConnection_1.connect();
-}
 const app = express_1.default();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '../views'));
@@ -32,6 +22,8 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(cookie_parser_1.default());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 app.use('/', musicRoutes_1.default);
+app.use('/auth/google', google_auth_1.default);
+app.use('/auth/facebook', facebook_auth_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(http_errors_1.default(404));
@@ -47,9 +39,6 @@ app.use(function (err, req, res, next) {
 });
 app.use(passport_1.default.initialize());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
-app.use('/', musicRoutes_1.default);
-app.use('/auth/google', google_auth_1.default);
-app.use('/auth/facebook', facebook_auth_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(http_errors_1.default(404));
