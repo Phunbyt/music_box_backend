@@ -8,12 +8,18 @@ import router from './routes/musicBoxController/musicRoutes';
 import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
 import { connect } from './config/database/dbConnection';
+import { dbConnect } from './db/mongodb-memory-server';
+import dotenv from 'dotenv';
 
+
+dotenv.config();
+if (process.env.NODE_ENV === "test") {
+    dbConnect();
+} else {
+    connect();
+}
 
 const app = express();
-connect();
-
-
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'jade');

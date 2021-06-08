@@ -13,8 +13,16 @@ const musicRoutes_1 = __importDefault(require("./routes/musicBoxController/music
 const google_auth_1 = __importDefault(require("./routes/social-route/google-auth"));
 const facebook_auth_1 = __importDefault(require("./routes/social-route/facebook-auth"));
 const dbConnection_1 = require("./config/database/dbConnection");
+const mongodb_memory_server_1 = require("./db/mongodb-memory-server");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+if (process.env.NODE_ENV === "test") {
+    mongodb_memory_server_1.dbConnect();
+}
+else {
+    dbConnection_1.connect();
+}
 const app = express_1.default();
-dbConnection_1.connect();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '../views'));
 app.set('view engine', 'jade');

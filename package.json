@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start-dev": "tsc && nodemon ./bin/www",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "test": "jest --runInBand --rootDir ./src/__test__"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "dependencies": {
     "@types/cors": "^2.8.10",

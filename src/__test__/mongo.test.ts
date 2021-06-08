@@ -1,32 +1,18 @@
-import { artist } from '../interfaces/artistinterface';
+import { dbConnect, dbDisconnect } from "../db/mongodb-memory-server";
 import request from 'supertest';
 import app from '../app';
 
-const artists: artist = {
-    artistName: 'remi',
-    artistId: '1234',
-    artistLink: 'www.link/deezeer/on.com',
-    artistPicture: 'afeewaf',
-    pictureSmall: 'kaejae',
-    pictureMedium: 'oefoa;ej',
-    pictureBig: 'qwwewe',
-    pictureXl: 'qweeryy',
-    noOfAlbums: 123,
-    noOfFan: 4577,
-    radio: true,
-    trackList: 'kafof',
-    type: 'artist',
-    liked: ['segun'],
-    listened: ['remi'],
-    likeCount: 0,
-    listeningCount: 0
-}
 
-let ArtistId: string;
 let Usertoken: string;
 let UserId: string;
-let artistFilled: artist | {} = {};
 let currentUser: Record<string, string> = {};
+
+beforeAll(async () => {
+    await dbConnect();
+});
+afterAll(async () => {
+    await dbDisconnect()
+});
 
 describe("POST/ signup and signin", () => {
   test("test for signup", async () => {
@@ -52,48 +38,40 @@ describe("POST/ signup and signin", () => {
     expect(res.body.status).toBe("success");
     Usertoken = res.body.token;
     currentUser.token = Usertoken;
+    UserId = res.body.user._id;
     expect(res.body.token).toBe(Usertoken);
   });
 });
 
 describe('create artist, like artist and listen to artist', () => {
     test('create a new artist', async () => {
+        const queryParams = 230;
         const res = await request(app)
-            .post('/artist/create/:id')
+            .post(`/artist/create/${queryParams}`)
             .set('authorization', `Bearer ${Usertoken}`);
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('status');
-        expect(res.body).toHaveProperty('artist');
-        expect(res.body.artist).toHaveProperty('artistName');
-        expect(typeof res.body.artist === 'object').toBe(true);
-        artistFilled = {
-            ...res.body.artist
-        };
+        expect(res.body).toHaveProperty('artistName');
+        expect(typeof res.body === 'object').toBe(true);
+        UserId = res.body._id;
     })
 
     test('update a artists like', async () => {
-        artists.likeCount = 0;
         const res = await request(app)
-            .put('/artist/like/:id')
+            .put(`/artist/like/${UserId}`)
             .set('authorization', `Bearer ${Usertoken}`);
         expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty('likes');
-        expect(res.body.likeCount).toBe(1);
-        artistFilled = {
-            ...res.body
-        };
+        expect(res.body).toHaveProperty('message');
+        expect(res.body.info.likeCount).toBe(1);
+
     })
 
     test('update an artists listening count', async () => {
-        artists.listeningCount = 0;
         const res = await request(app)
-            .put('/artist/listento/:id')
+            .put(`/artist/listento/${UserId}`)
             .set('authorization', `Bearer ${Usertoken}`);
         expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty('listeningCount');
-        expect(res.body.listeningCount).toBe(1);
-        artistFilled = {
-            ...res.body
-        };
+        expect(res.body.artistInfo).toHaveProperty('listeningCount');
+        expect(res.body.artistInfo.listeningCount).toBe(1);
+        
     })
 })

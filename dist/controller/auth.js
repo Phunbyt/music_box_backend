@@ -32,7 +32,7 @@ async function signUp(req, res, next) {
             email,
             password
         });
-        res.status(201).send('Successfully added user');
+        res.status(201).json({ message: 'User Created Successfully' });
     }
     catch (error) {
         res.status(400).json({ message: error.message });
