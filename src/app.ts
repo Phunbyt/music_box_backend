@@ -7,11 +7,11 @@ import passport from 'passport';
 import router from './routes/musicBoxController/musicRoutes';
 import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
-import { connect } from './config/database/dbConnection';
+
 
 
 const app = express();
-connect();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));

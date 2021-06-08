@@ -12,9 +12,7 @@ const passport_1 = __importDefault(require("passport"));
 const musicRoutes_1 = __importDefault(require("./routes/musicBoxController/musicRoutes"));
 const google_auth_1 = __importDefault(require("./routes/social-route/google-auth"));
 const facebook_auth_1 = __importDefault(require("./routes/social-route/facebook-auth"));
-const dbConnection_1 = require("./config/database/dbConnection");
 const app = express_1.default();
-dbConnection_1.connect();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '../views'));
 app.set('view engine', 'jade');
