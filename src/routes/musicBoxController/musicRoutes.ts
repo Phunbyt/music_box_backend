@@ -6,7 +6,9 @@ import { getSingleData, updateData } from '../../controller/profile';
 import { userAuthentication } from '../../controller/usermiddleware';
 import { likePublicPost } from '../../controller/playlistLike';
 import {requestReset,reset} from '../../controller/requestreset';
-import {addSongToPlayList,createPlayList,deletePlayList,deleteAllSongsFromPlayList,deleteSongFromPlayList,getAllPlayLists,getPlayList } from '../../controller/playlistController'; //Play lists
+import {addSongToPlayList,createPlayList,deletePlayList,deleteAllSongsFromPlayList,deleteSongFromPlayList,getAllPlayLists,getPlayList } from '../../controller/playlistController'; 
+import { getListeningHistory, addTrackToHistory, deleteTrackFromHistory } from '../../controller/listenHistory'; //listeningHistory
+//Play lists
 const router = express.Router();
 
 // Genre routes
@@ -38,5 +40,10 @@ router.delete('/playlist/removeplaylist/:id', userAuthentication, deletePlayList
 
 //change password router
 router.put('/music/changePassword/:id',userAuthentication, changePassword);
+
+//Routes for listeningHistory
+router.get('/listeninghistory', userAuthentication, getListeningHistory);
+router.post('/listeninghistory', userAuthentication, addTrackToHistory);
+router.delete('/listeninghistory/:id', userAuthentication, deleteTrackFromHistory);
 
 export default router;

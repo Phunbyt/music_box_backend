@@ -11,7 +11,9 @@ const profile_1 = require("../../controller/profile");
 const usermiddleware_1 = require("../../controller/usermiddleware");
 const playlistLike_1 = require("../../controller/playlistLike");
 const requestreset_1 = require("../../controller/requestreset");
-const playlistController_1 = require("../../controller/playlistController"); //Play lists
+const playlistController_1 = require("../../controller/playlistController");
+const listenHistory_1 = require("../../controller/listenHistory"); //listeningHistory
+//Play lists
 const router = express_1.default.Router();
 // Genre routes
 router.get('/music/genres', usermiddleware_1.userAuthentication, genres_1.genres);
@@ -36,4 +38,8 @@ router.delete('/playlist/removeallsongs/:id', usermiddleware_1.userAuthenticatio
 router.delete('/playlist/removeplaylist/:id', usermiddleware_1.userAuthentication, playlistController_1.deletePlayList); //Delete a playlist
 //change password router
 router.put('/music/changePassword/:id', usermiddleware_1.userAuthentication, changePassword_1.changePassword);
+//Routes for listeningHistory
+router.get('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.getListeningHistory);
+router.post('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.addTrackToHistory);
+router.delete('/listeninghistory/:id', usermiddleware_1.userAuthentication, listenHistory_1.deleteTrackFromHistory);
 exports.default = router;
