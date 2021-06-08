@@ -70,6 +70,7 @@ describe("", () => {
         .put(`/album/like/${albumId}`)
         .set("authorization", `Bearer ${token}`);
       expect(result.status).toEqual(200);
+      expect(result.body.data.likeCount).toBe(1);
     });
 
   it("user successfully listens to song in an album", async () => {
@@ -77,5 +78,6 @@ describe("", () => {
       .put(`/album/listened/${albumId}`)
       .set("authorization", `Bearer ${token}`);
     expect(result.status).toEqual(200);
+    expect(result.body.data.listeningCount).toBe(1);
   });
 });
