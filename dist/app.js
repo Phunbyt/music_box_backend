@@ -21,7 +21,10 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(cookie_parser_1.default());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+// app.use(cors())
 app.use('/', musicRoutes_1.default);
+app.use('/auth/google', google_auth_1.default);
+app.use('/auth/facebook', facebook_auth_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(http_errors_1.default(404));
@@ -37,9 +40,6 @@ app.use(function (err, req, res, next) {
 });
 app.use(passport_1.default.initialize());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
-app.use('/', musicRoutes_1.default);
-app.use('/auth/google', google_auth_1.default);
-app.use('/auth/facebook', facebook_auth_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(http_errors_1.default(404));

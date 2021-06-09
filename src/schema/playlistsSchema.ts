@@ -5,6 +5,7 @@ const songsSchema = new mongoose.Schema({
     },
     songId:{
         type:String,
+
         
     }, 
     artist:{
@@ -17,7 +18,9 @@ const songsSchema = new mongoose.Schema({
         type:String
     }
 }, {timestamps:true});
+
 export const SongModel = mongoose.model('song', songsSchema);
+
 const playListSchema = new mongoose.Schema(
  {
   name: {
@@ -63,4 +66,6 @@ const playListSchema = new mongoose.Schema(
  },
  { timestamps: true }
 );
+
 export const PlayListModel = mongoose.model('playlist', playListSchema);
+
