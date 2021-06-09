@@ -18,6 +18,7 @@ const playlistController_1 = require("../../controller/playlistController"); //P
 const album_1 = require("../../controller/album");
 const genrePlaylist_1 = require("../../controller/genrePlaylist");
 const artist_1 = require("../../controller/artist"); //Play lists
+const recentlyplayed_1 = require("../../controller/recentlyplayed");
 const router = express_1.default.Router();
 // Genre routes
 router.get('/music/genres', usermiddleware_1.userAuthentication, genres_1.genres);
@@ -67,4 +68,7 @@ router.put('/album/listened/:id', usermiddleware_1.userAuthentication, album_1.l
 router.get('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.getListeningHistory);
 router.post('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.addTrackToHistory);
 router.delete('/listeninghistory/:id', usermiddleware_1.userAuthentication, listenHistory_1.deleteTrackFromHistory);
+// routes for recenly played 
+router.post("/playlist/saveRecentlyPlayed", usermiddleware_1.userAuthentication, recentlyplayed_1.saveRecentlyPlayed);
+router.get("/playlist/getRecentlyPlayed", usermiddleware_1.userAuthentication, recentlyplayed_1.getRecentlyPlayed);
 exports.default = router;

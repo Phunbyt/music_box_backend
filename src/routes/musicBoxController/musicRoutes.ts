@@ -13,7 +13,7 @@ import { addSongToPlayList, createPlayList, deletePlayList, deleteAllSongsFromPl
 import { findAlbum, likeAndUnlikeAlbum, listenedToAlbum } from '../../controller/album';
 import { getGenrePlaylist, getGenreArtist } from '../../controller/genrePlaylist';
 import { createArtist, likeArtist, listenedToArtist, searchArtist } from '../../controller/artist'; //Play lists
-
+import {saveRecentlyPlayed,getRecentlyPlayed} from "../../controller/recentlyplayed";
 const router = express.Router();
 
 // Genre routes
@@ -97,5 +97,16 @@ router.put('/album/listened/:id', userAuthentication, listenedToAlbum);
 router.get('/listeninghistory', userAuthentication, getListeningHistory);
 router.post('/listeninghistory', userAuthentication, addTrackToHistory);
 router.delete('/listeninghistory/:id', userAuthentication, deleteTrackFromHistory);
+
+
+
+// routes for recenly played 
+router.post("/playlist/saveRecentlyPlayed", userAuthentication, saveRecentlyPlayed);
+
+router.get(
+  "/playlist/getRecentlyPlayed",
+  userAuthentication,
+  getRecentlyPlayed
+);
 
 export default router;
