@@ -94,29 +94,37 @@ export const addSongToPlayList = async (req:Request, res:Response)=>{
     const newSong:any = new SongModel({
         songId:req.body.songId
     });
+        const { error } = ValidateSong(req.body);
 
+if (error) {
+ return res.status(400).send(error.details[0].message);
+}
+let song: Record<string, any> = {};
+try{
     const songRes = await axios.get(`https://api.deezer.com/track/${newSong.songId}`);
-     let song:Record<string,any> = {};
-     song.id = songRes.data.id;
+     
+     song.songId = songRes.data.id;
      song.title = songRes.data.title;
      song.artist = songRes.data.artist.name;
      song.album = songRes.data.album.title;
      song.img = songRes.data.album.cover_medium;
     console.log(song)
-    // const {error} = ValidateSong(req.body);
-    // if(error){
-    //     return res.status(400).send(error.details[0].message);
-    // }
+
+}catch(err){
+    console.log(err)
+}
 
     const exist = playList.songs.filter((item:Song)=>item.songId ==newSong.songId);
     if(exist.length){
         return res.status(400).send('Cannot add a song twice');
     }
-    if (playList.category === 'private') {
+ 
+    if (playList.category == 'private') {
         if(currentUser._id == playList.owner){
+            
              playList.songs.push(song);
              playList = await playList.save();
-            return res.status(201).json({
+             return res.status(201).json({
              message: `Successfully added song to ${playList.name}`,
              data: playList,
             });
@@ -195,7 +203,6 @@ export const deletePlayList = async (req:Request, res:Response) =>{
     const currentUser: any = req.user ? req.user : null;
     if (currentUser._id == playList.owner) {
         playList = await PlayListModel.deleteOne({_id:req.params.id});
-        await playList.save()
         return res.status(200).json({'message': `Deleted ${playList.name} successfully`, 'status':'success'});
     }
     return res
@@ -213,17 +220,17 @@ export const deleteSongFromPlayList = async (req:Request, res:Response) =>{
 		}
 		const currentUser: any = req.user ? req.user : null;
         
-		const newSong:any = new SongModel({
-			title:req.body.title
-		});
-		const toDelete:any = playList.songs.filter((item:Song)=>item.title ===newSong.title)[0];
-		if(!toDelete)return res.status(404).send('Song doesn\'t exist in the playlist');
-		if(currentUser._id == playList.owner){
-			const idx = playList.songs.indexOf(toDelete);
-			playList.songs.splice(idx, 1);
-			playList = await playList.save();
-			res.status(200).json({ message: `Deleted ${newSong.title}` });
-		}
+        const newSong:any = new SongModel({
+            songId:req.body.songId
+        });
+        const toDelete:any = playList.songs.filter((item:Song)=>item.songId ===newSong.songId)[0];
+        if(!toDelete)return res.status(404).send('Song doesn\'t exist in the playlist');
+        if(currentUser._id == playList.owner){
+            const idx = playList.songs.indexOf(toDelete);
+            playList.songs.splice(idx, 1);
+            playList = await playList.save();
+            res.status(200).json({ message: `Deleted ${newSong.title}` });
+        }
         
         return res
         .status(403)
@@ -234,23 +241,23 @@ export const deleteSongFromPlayList = async (req:Request, res:Response) =>{
 };
 
 export const deleteAllSongsFromPlayList = async (req:Request, res:Response) =>{
-	try{
-		let playList:any = await PlayListModel.findById(req.params.id);
-		if(!playList) return res.status(404).send({'message':'playlist doesnt not exist', 'status':'error'});
-		const currentUser: any = req.user ? req.user : null;
-		if(currentUser._id == playList.owner){
-			playList.songs.splice(0);
-			playList = await playList.save();
-			res.status(200).json({ message: 'Deleted all songs' });
-		}
+    try{
+        let playList:any = await PlayListModel.findById(req.params.id);
+        if(!playList) return res.status(404).send({'message':'playlist doesnt not exist', 'status':'error'});
+        const currentUser: any = req.user ? req.user : null;
+        if(currentUser._id == playList.owner){
+            playList.songs.splice(0);
+            playList = await playList.save();
+            return res.status(200).json({ message: 'Deleted all songs' });
+        }
         
 		return res
 			.status(403)
 			.json({ status: 'forbidden', message: 'access denied' });
         
-	}
-	catch(error){
-		res.status(500).json({message:error.message, status:'error'});
-	}
+    }
+    catch(error){
+       return res.status(500).json({message:error.message, status:'error'});
+    }
 
 };

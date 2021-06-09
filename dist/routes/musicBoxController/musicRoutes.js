@@ -54,7 +54,7 @@ router.delete('/playlist/removeplaylist/:id', usermiddleware_1.userAuthenticatio
 //Like a playlist
 router.post('/listen/song', usermiddleware_1.userAuthentication, playlistController_1.listenToSongInPlayList);
 //get most played
-router.get('/mostplayed', playlistController_1.getMostPlayed);
+router.get('/mostplayed', usermiddleware_1.userAuthentication, playlistController_1.getMostPlayed);
 //change password router
 router.put('/music/changePassword/:id', usermiddleware_1.userAuthentication, changePassword_1.changePassword);
 // get genres playlist and artist
