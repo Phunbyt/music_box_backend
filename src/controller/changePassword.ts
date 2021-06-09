@@ -11,21 +11,16 @@ export const changePassword = async (
 	res: Response
 ): Promise<Response<unknown, Record<string, unknown>>> => {
 	const id = req.params.id;
-	console.log(id);
 
 	const { error } = changePasswordValidator(req.body);
 	if (error) return res.status(400).send({ message: error.details[0].message });
 
 	try {
 		const user: Record<any, any> | null = await NewUser.findOne({ _id: req.params.id });
-		console.log('user', user);
-		console.log('current', req.body.oldPassword);
-
 		if (!user) return res.status(404).send({ message: 'User not found' });
 
 		const { oldPassword, newPassword } = req.body;
 		const result = await bcrypt.compare(oldPassword, user['password']);
-		console.log(result);
 
 		const salt = await bcrypt.genSalt(saltRounds);
 		const hash = await bcrypt.hash(newPassword, salt);

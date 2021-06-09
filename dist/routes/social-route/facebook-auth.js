@@ -15,7 +15,6 @@ authRouter.get('/', passport_1.default.authenticate('facebook', {
 }));
 authRouter.get('/callback', passport_1.default.authenticate('facebook', {
     session: false,
-    // successRedirect: "/auth/facebook/callback/dashboard",
     failureRedirect: '/auth/facebook/callback/failure',
 }), async function (req, res) {
     try {

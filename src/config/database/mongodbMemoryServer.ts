@@ -20,7 +20,6 @@ export const testDbConnect = async () => {
       console.log("connected");
     }
   });
-  //console.log("connection established");
 };
 export const dbDisconnect = async () => {
   await connection.dropDatabase();

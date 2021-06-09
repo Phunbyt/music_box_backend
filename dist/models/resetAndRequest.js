@@ -11,7 +11,6 @@ const crypto_1 = __importDefault(require("crypto"));
 const sendemail_1 = __importDefault(require("../utils/sendemail/sendemail"));
 const bcryptSalt = process.env.BCRYPT_SALT;
 async function requestPasswordReset(email) {
-    console.log(email);
     const user = await registrationSchema_1.default.findOne({ email });
     if (!user) {
         throw new Error('User doesn\'t exist');

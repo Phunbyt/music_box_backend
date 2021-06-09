@@ -20,7 +20,6 @@ authRouter.get(
 	'/callback',
 	passport.authenticate('facebook', {
 		session: false,
-		// successRedirect: "/auth/facebook/callback/dashboard",
 		failureRedirect: '/auth/facebook/callback/failure',
 	}),
 	async function(req: Request, res: Response) {

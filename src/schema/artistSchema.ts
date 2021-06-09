@@ -84,4 +84,3 @@ const artistSchema = new Schema<artist>({
 const Artist = model('Artist', artistSchema)
 
 export default Artist;
-// first check db, if null, fetch from  deezer, create, if null, not existing.
