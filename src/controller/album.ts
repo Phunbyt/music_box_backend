@@ -5,17 +5,17 @@ import axios from 'axios'
 
 export const findAlbum = async (req: Request, res: Response, next:NextFunction) => {
     try {
-        const albumT = req.query.q as string;
+        const albumTitle = req.query.q as string;
         
-        let albumData = await Album.findOne({ title: albumT });
+        let albumData = await Album.findOne({ title: albumTitle });
         
         if (!albumData) {
             const data = await axios.get(
-              `https://api.deezer.com/search/album?q=${albumT}`
+              `https://api.deezer.com/search/album?q=${albumTitle}`
             );
             const specificAlbumData = data.data.data
             const output  = specificAlbumData.filter((item:Record<string,any>)=> {
-                if(item.title.toLocaleLowerCase() == albumT.toLocaleLowerCase() ){
+                if(item.title.toLocaleLowerCase() == albumTitle.toLocaleLowerCase() ){
                     return item;
                 }
             });
