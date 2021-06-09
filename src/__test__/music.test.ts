@@ -8,7 +8,7 @@ import {
 
 beforeAll(async () => {
 	await testDbConnect();
-	console.log('beforeAll', 'i am here');
+	
 });
 afterAll(async () => {
 	await dbDisconnect();
