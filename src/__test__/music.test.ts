@@ -8,14 +8,16 @@ import {
 
 beforeAll(async () => {
 	await testDbConnect();
-	console.log('beforeAll', 'i am here');
+	
 });
 afterAll(async () => {
 	await dbDisconnect();
 });
 
 const currentUser: Record<string, string> = {};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let dataPrefilled: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let dataPreFilled: any = {};
 let ID = '';
 let trackId = '';
@@ -71,6 +73,7 @@ describe('GET all genres and genre', () => {
 		const res = await request(app)
 			.get(`/music/genres/${dataPrefilled.id}`)
 			.set('Authorization', `Bearer ${currentUser.token}`);
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		ID = res.body.data[0]._id;
 
 		expect(res.status).toBe(200);
@@ -80,6 +83,7 @@ describe('GET all genres and genre', () => {
 
 describe('Test for playlist creation', () => {
 	test('User should be able to create a playlist', async () => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const playlist: any = {
 			name: 'The beatles',
 			category: 'public',
@@ -93,8 +97,8 @@ describe('Test for playlist creation', () => {
 			.set('Authorization', `Bearer ${currentUser.token}`);
 		expect(res.status).toBe(201);
 		expect(res.body.status).toBe('success');
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		dataPreFilled = res.body.data;
-		//id = res.body.data._id;
 	});
 });
 
@@ -232,5 +236,51 @@ describe('create artist, like artist and listen to artist', () => {
 	});
 });
 
-
+describe('Recently played medias are saved', () => {
+	it('saves recently played album', async () => {
+		const album = {
+			directory: 'album',
+			directoryID: '60bd63c7deb0272217afc0ab',
+		};
+		const res = await request(app)
+			.post('/playlist/saveRecentlyPlayed')
+			.send(album)
+			.set('Authorization', `Bearer ${currentUser.token}`);
+		expect(res.status).toBe(201);
+		expect(res.body.album).toBeTruthy();
+	});
+	it('saves recently played playlist', async () => {
+		const playlist = {
+			directory: 'playlist',
+			directoryID: '60bd29e801697b06e54bb9d7',
+		};
+		const res = await request(app)
+			.post('/playlist/saveRecentlyPlayed')
+			.send(playlist)
+			.set('Authorization', `Bearer ${currentUser.token}`);
+		expect(res.status).toBe(201);
+		expect(res.body.album).toBeTruthy();
+	});
+	it('saves recently played artist', async () => {
+		const artist = {
+			directory: 'artist',
+			directoryID: '60bd490341c9d5a020e1d557',
+		};
+		const res = await request(app)
+			.post('/playlist/saveRecentlyPlayed')
+			.send(artist)
+			.set('Authorization', `Bearer ${currentUser.token}`);
+		expect(res.status).toBe(201);
+		expect(res.body.album).toBeTruthy();
+	});
+});
+describe('Recently played medias can be seen by user', () => {
+	it('gets recently played album, playlist, and artist', async () => {
+		const res = await request(app)
+			.get('/playlist/getRecentlyPlayed')
+			.set('Authorization', `Bearer ${currentUser.token}`);
+		expect(res.status).toBe(200);
+		expect(Object.keys(res.body).length).toBe(3);
+	});
+});
 

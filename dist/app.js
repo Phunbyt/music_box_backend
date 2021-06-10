@@ -21,6 +21,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(cookie_parser_1.default());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+// app.use(cors())
 app.use('/', musicRoutes_1.default);
 app.use('/auth/google', google_auth_1.default);
 app.use('/auth/facebook', facebook_auth_1.default);
@@ -29,7 +30,7 @@ app.use(function (req, res, next) {
     next(http_errors_1.default(404));
 });
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -44,7 +45,9 @@ app.use(function (req, res, next) {
     next(http_errors_1.default(404));
 });
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res, 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

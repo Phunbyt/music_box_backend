@@ -8,7 +8,6 @@ import router from './routes/musicBoxController/musicRoutes';
 import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
 
-
 const app = express();
 
 // view engine setup
@@ -20,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use(cors())
 app.use('/', router);
 app.use('/auth/google', authGoogleRouter);
 app.use('/auth/facebook', authFacebookRouter);
@@ -30,7 +29,7 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 	next(createError(404));
 });
 // error handler
-app.use(function (err: HttpError, req: Request, res: Response, next: NextFunction) {
+app.use(function (err: HttpError, req: Request, res: Response) {
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -54,6 +53,7 @@ app.use(function (
 	err: HttpError,
 	req: Request,
 	res: Response,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	next: NextFunction
 ) {
 	// set locals, only providing error in development
