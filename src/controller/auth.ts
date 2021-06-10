@@ -8,6 +8,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 export async function signUp(req: Request, res: Response, next: NextFunction) {
+    const { error } = validateUser(req.body);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
   try {
     const {
       firstName,
@@ -18,18 +22,15 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
       password,
       confirmPassword,
     } = req.body;
-
-    const { error } = validateUser(req.body);
-    if (error) {
-      return res.status(400).send(error.details[0].message);
-    }
+        
+		const inputEmail = await NewUser.findOne({ email });
+		if (inputEmail) return res.status(400).send('User already exists');
+        
+        
 
     if (password !== confirmPassword) {
       return res.status(400).send("confirmPassword does not match password");
     }
-
-    const inputEmail = await NewUser.findOne({ email });
-    if (inputEmail) return res.status(400).send("User already exists");
 
     const user = await NewUser.create({
       firstName,

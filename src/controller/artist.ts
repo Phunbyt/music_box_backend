@@ -20,7 +20,7 @@ export async function searchArtist(req: Request, res: Response, next: NextFuncti
             }
             return res.status(201).json(result)
         }
-        res.send(artistsName);
+        res.status(201).send(artistsName);
     } catch (error) {
         res.status(500).json('An error occurred');
     }
@@ -46,7 +46,6 @@ export async function createArtist(req: Request, res: Response, next: NextFuncti
                 trackList: info.tracklist,
                 type: info.type,
             })
-            console.log('artist');
             return res.status(201).send(artist);
         }
         return res.status(201).json(artist);
@@ -100,15 +99,15 @@ export async function likeArtist(req: Request | any, res: Response) {
 
 export async function listenedToArtist(req: Request | any, res: Response) {
     try {
-        let count = 1
-        const playlist = await Artist.findOneAndUpdate(
+        let count = 1 // used to track the amount of listeningTo an artist has.
+        const artist = await Artist.findOneAndUpdate(
             { _id: req.params.id },
             { $inc: { listeningCount: count } },
             {new: true}
         );
         res.status(200).json({
             status: "Success",
-            data: playlist,
+            artistInfo: artist,
         });
     }
     catch (error) {
