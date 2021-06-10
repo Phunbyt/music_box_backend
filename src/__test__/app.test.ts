@@ -16,7 +16,6 @@ afterAll(async () => {
  await dbDisconnect();
 });
 
-let iden:any;
 let dataPreFilled:any;
 const currentUser: Record<string, any> = {};
 const song: Record<string, any> = {};
@@ -81,7 +80,6 @@ describe('Test for playlist creation', ()=>{
     expect(res.status).toBe(200)
     expect(res.body).toHaveProperty('data')
     expect(res.body.status).toBe('success')
-    iden = res.body.data._id
   })
 
   test('User should be able to get a playlist', async()=>{

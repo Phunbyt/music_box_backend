@@ -49,9 +49,9 @@ export const getAllPlayLists = async (req:Request, res:Response)=>{
 
 //Create a new playlist
 export const createPlayList = async (req:Request, res:Response)=>{
-    try{
-        const allPlayLists = await PlayListModel.find({});
-        const currentUser:any= req.user ? req.user : null;
+	try{
+		const allPlayLists = await PlayListModel.find({});
+		const currentUser:any= req.user ? req.user : null;
         
         let newPlayList:any= new PlayListModel({
             name:req.body.name,
@@ -85,11 +85,11 @@ export const createPlayList = async (req:Request, res:Response)=>{
 //Add a song to a playlist
 export const addSongToPlayList = async (req:Request, res:Response)=>{
     
-    let playList:any = await PlayListModel.findById(req.params.id);
-    if(!playList){
-        return res.status(404).send('Playlist does not exist');
-    }
-    const currentUser: any = req.user ? req.user : null;
+	let playList:any = await PlayListModel.findById(req.params.id);
+	if(!playList){
+		return res.status(404).send('Playlist does not exist');
+	}
+	const currentUser: any = req.user ? req.user : null;
     
     const newSong:any = new SongModel({
         songId:req.body.songId
@@ -108,7 +108,6 @@ try{
      song.artist = songRes.data.artist.name;
      song.album = songRes.data.album.title;
      song.img = songRes.data.album.cover_medium;
-    console.log(song)
 
 }catch(err){
     console.log(err)
@@ -213,12 +212,12 @@ export const deletePlayList = async (req:Request, res:Response) =>{
 
 
 export const deleteSongFromPlayList = async (req:Request, res:Response) =>{
-    try{
-        let playList:any = await PlayListModel.findById(req.params.id);
-        if(!playList){
-            return res.status(404).send('Playlist does not exist');
-        }
-        const currentUser: any = req.user ? req.user : null;
+	try{
+		let playList:any = await PlayListModel.findById(req.params.id);
+		if(!playList){
+			return res.status(404).send('Playlist does not exist');
+		}
+		const currentUser: any = req.user ? req.user : null;
         
         const newSong:any = new SongModel({
             songId:req.body.songId
@@ -251,9 +250,9 @@ export const deleteAllSongsFromPlayList = async (req:Request, res:Response) =>{
             return res.status(200).json({ message: 'Deleted all songs' });
         }
         
-         return res
-          .status(403)
-          .json({ status: 'forbidden', message: 'access denied' });
+		return res
+			.status(403)
+			.json({ status: 'forbidden', message: 'access denied' });
         
     }
     catch(error){

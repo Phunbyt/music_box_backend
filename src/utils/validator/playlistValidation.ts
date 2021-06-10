@@ -7,7 +7,7 @@ export const ValidatePlayList = (obj: Record<string, any>) => {
         genre: Joi.string() 
     });
 
-    return schema.validate(obj);
+	return schema.validate(obj);
 };
 
 export const ValidateSong = (obj: Record<string, any>) => {
