@@ -15,7 +15,6 @@ authRouter.get('/', passport_1.default.authenticate('google', {
 }));
 authRouter.get('/callback', passport_1.default.authenticate('google', {
     session: false,
-    // successRedirect: "/auth/google/callback/dashboard",
     failureRedirect: '/auth/google/callback/failure',
 }), async function (req, res) {
     try {

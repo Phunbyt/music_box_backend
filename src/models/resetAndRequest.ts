@@ -7,7 +7,6 @@ import sendEmail from '../utils/sendemail/sendemail';
 const bcryptSalt = process.env.BCRYPT_SALT;
 
 async function requestPasswordReset(email: string) {
-	console.log(email);
 	const user = await NewUser.findOne({ email });
 	if (!user) {
 		throw new Error('User doesn\'t exist');

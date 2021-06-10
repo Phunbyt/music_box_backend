@@ -21,7 +21,7 @@ export const getGenrePlaylist = async (
     let playlist: Record<any, any> | null = await PlayListModel.find({
       genre: genreName,
     });
-
+   
     let publicPlaylist: string[] = playlist!.filter(
       (list: { [x: string]: string }) => {
         return list["category"] == "public";
@@ -47,10 +47,8 @@ export const getGenreArtist = async (req: Request, res: Response) => {
 
     if (!genre) return res.status(400).send({ message: "Genre Not Found" });
     let genreID = genre["id"];
-
     const url = `https://api.deezer.com/genre/${genreID}/artists`;
     const artist = await GenreArtist(url);
-
     if (artist) {
       return res.status(200).json({ message: "Artist Genre", data: artist });
     } else {

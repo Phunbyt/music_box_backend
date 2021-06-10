@@ -1,7 +1,5 @@
-node_modules/
-dist/
-<<<<<<< HEAD
-*.env
-=======
 env
->>>>>>> e82b6d68844e809daa723b905f24b59c707975e7
+listening-history
+node_modules
+dist/
+
