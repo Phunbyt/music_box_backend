@@ -7,7 +7,7 @@ import passport from 'passport';
 import router from './routes/musicBoxController/musicRoutes';
 import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
-
+import cors from 'cors'
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use(cors())
 app.use('/', router);
 app.use('/auth/google', authGoogleRouter);
 app.use('/auth/facebook', authFacebookRouter);

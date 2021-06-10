@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "start-dev": "tsc && nodemon ./bin/www",
     "lint": "eslint ./src",
-    "test": "jest --runInBand --verbose -rootDir ./src/__test__"
+    "test": "jest --runInBand --verbose --rootDir ./src/__test__"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
