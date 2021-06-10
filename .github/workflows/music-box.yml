@@ -1,17 +1,16 @@
 name: Music-box-a CI
- 
+
 on:
   push:
-    branches: [ dev ]
-   
+    branches: [dev]
+
   pull_request:
-    branches: [ dev ]
- 
+    branches: [dev]
+
 jobs:
   testIncomingPush:
- 
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [14.x]
@@ -22,18 +21,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          GENRE_LINK: ${{ secrets.GENRE_LINK }}
+          ARTIST_LINK: ${{ secrets.ARTIST_LINK} }
+          SECRET_TEXT: ${{ secrets.SECRET_TEXT }}
+          BCRYPT_SALT: ${{ secrets.BCRYPT_SALT }}
+          CLIENT_URL: ${{ secrets.CLIENT_URL }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          FACEBOOK_CLIENT_ID: ${{ secrets.FACEBOOK_CLIENT_ID }}
+          FACEBOOK_CLIENT_SECRET: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
       - run: yarn
-        env: 
-          MONGODB_URI: ${{secrets.MONGODB_URI}}
-          GENRE_LINK: ${{secrets.GENRE_LINK}}
-          ARTIST_LINK: ${{secrets.ARTIST_LINK}}
-          SECRET_TEXT: ${{secrets.SECRET_TEXT}}
-          BCRYPT_SALT: ${{secrets.BCRYPT_SALT}}
-          CLIENT_URL: ${{secrets.CLIENT_URL}}
-          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
-          GOOGLE_CLIENT_ID : ${{secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET : ${{secrets.GOOGLE_CLIENT_SECRET }}
-          FACEBOOK_CLIENT_ID : ${{secrets.FACEBOOK_CLIENT_ID }}
-          FACEBOOK_CLIENT_SECRET : ${{secrets.FACEBOOK_CLIENT_SECRET }}
       - run: yarn test
-
