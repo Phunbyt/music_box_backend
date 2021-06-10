@@ -43,7 +43,7 @@ export const likeAndUnlikeAlbum = async (req: Request | any,res:Response) => {
 		}).exec();
          
 		if (!toLike) {
-			const addedLike:any = await Album.findOneAndUpdate(
+			const addedLike = await Album.findOneAndUpdate(
 				{ _id: req.params.id },
 				{ $push: { likes: req.user._id } },
 				{ new: true }
@@ -55,7 +55,7 @@ export const likeAndUnlikeAlbum = async (req: Request | any,res:Response) => {
 				data: addedLike,
 			});
 		} else {
-			const removeLike:any = await Album.findOneAndUpdate(
+			const removeLike = await Album.findOneAndUpdate(
 				{ _id: req.params.id },
 				{ $pull: { likes: req.user._id } },
 				{ new: true }
@@ -79,6 +79,18 @@ export const likeAndUnlikeAlbum = async (req: Request | any,res:Response) => {
 export const listenedToAlbum = async (req: Request | any, res: Response) => {
 	try {
 		const count = 1;
+		const listenedToAlbum = await Album.findOne({
+			_id: req.params.id,
+			listened: { $in: req.user._id },
+		}).exec();
+
+		if (!listenedToAlbum) {
+			await Album.findOneAndUpdate(
+				{ _id: req.params.id },
+				{ $push: { listened: req.user._id } },
+				{ new: true }
+			).exec();
+		}
 		const playlist = await Album.findOneAndUpdate(
 			{ _id: req.params.id },
 			{ $inc: { listeningCount: count } },
