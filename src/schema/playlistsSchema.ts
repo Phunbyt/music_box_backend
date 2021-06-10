@@ -61,7 +61,7 @@ const playListSchema = new mongoose.Schema(
    default: 0,
   },
   owner: {
-   type: mongoose.Schema.Types.ObjectId,
+   type: String,
   },
  },
  { timestamps: true }

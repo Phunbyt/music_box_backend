@@ -13,7 +13,7 @@ import { addSongToPlayList, createPlayList, deletePlayList, deleteAllSongsFromPl
 import { findAlbum, likeAndUnlikeAlbum, listenedToAlbum } from '../../controller/album';
 import { getGenrePlaylist, getGenreArtist } from '../../controller/genrePlaylist';
 import { createArtist, likeArtist, listenedToArtist, searchArtist } from '../../controller/artist'; //Play lists
-
+import {saveRecentlyPlayed,getRecentlyPlayed} from "../../controller/recentlyplayed";
 const router = express.Router();
 
 // Genre routes
@@ -26,7 +26,7 @@ router.post('/music/signIn', signIn);
 router.put('/likePublicPost/:id', userAuthentication, likePublicPost);
 
 // routes for SEARCH
-router.get('/music/search/', search);
+router.get('/music/search/', userAuthentication, search);
 
 // Profile route
 router.get('/music/profile/:id', userAuthentication, getSingleData);
@@ -80,7 +80,7 @@ router.delete(
 //Like a playlist
 router.post('/listen/song',userAuthentication, listenToSongInPlayList)
 //get most played
-router.get('/mostplayed', getMostPlayed)
+router.get('/mostplayed', userAuthentication, getMostPlayed)
 //change password router
 router.put('/music/changePassword/:id', userAuthentication, changePassword);
 
@@ -97,5 +97,16 @@ router.put('/album/listened/:id', userAuthentication, listenedToAlbum);
 router.get('/listeninghistory', userAuthentication, getListeningHistory);
 router.post('/listeninghistory', userAuthentication, addTrackToHistory);
 router.delete('/listeninghistory/:id', userAuthentication, deleteTrackFromHistory);
+
+
+
+// routes for recenly played 
+router.post("/playlist/saveRecentlyPlayed", userAuthentication, saveRecentlyPlayed);
+
+router.get(
+  "/playlist/getRecentlyPlayed",
+  userAuthentication,
+  getRecentlyPlayed
+);
 
 export default router;
