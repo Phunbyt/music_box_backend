@@ -15,7 +15,9 @@ afterAll(async () => {
 });
 
 const currentUser: Record<string, string> = {};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let dataPrefilled: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let dataPreFilled: any = {};
 let ID = '';
 let trackId = '';
@@ -71,6 +73,7 @@ describe('GET all genres and genre', () => {
 		const res = await request(app)
 			.get(`/music/genres/${dataPrefilled.id}`)
 			.set('Authorization', `Bearer ${currentUser.token}`);
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		ID = res.body.data[0]._id;
 
 		expect(res.status).toBe(200);
@@ -80,6 +83,7 @@ describe('GET all genres and genre', () => {
 
 describe('Test for playlist creation', () => {
 	test('User should be able to create a playlist', async () => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const playlist: any = {
 			name: 'The beatles',
 			category: 'public',
@@ -93,8 +97,8 @@ describe('Test for playlist creation', () => {
 			.set('Authorization', `Bearer ${currentUser.token}`);
 		expect(res.status).toBe(201);
 		expect(res.body.status).toBe('success');
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		dataPreFilled = res.body.data;
-		//id = res.body.data._id;
 	});
 });
 
@@ -279,103 +283,3 @@ describe('Recently played medias can be seen by user', () => {
 		expect(Object.keys(res.body).length).toBe(3);
 	});
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// describe("Test for playlist creation", () => {
-//   test("User should be able to create a playlist", async () => {
-//     const playlist: any = {
-//       name: "The beatles",
-//       category: "public",
-//       songs: [],
-//       genre: "Rock",
-//     };
-
-//     const res = await request(app)
-//       .post("/playlist/create")
-//       .send(playlist)
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     expect(res.status).toBe(201);
-//     expect(res.body.status).toBe("success");
-//     dataPreFilled = res.body.data;
-//     console.log(res.body.data);
-//     console.log(currentUser);
-//     //id = res.body.data._id;
-//   });
-//   test("User should be able to get all playlists", async () => {
-//     const res = await request(app)
-//       .get("/playlists")
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     expect(res.status).toBe(200);
-//     expect(res.body).toHaveProperty("data");
-//     expect(res.body.status).toBe("success");
-//     iden = res.body.data._id;
-//   });
-
-//   test("User should be able to get a playlist", async () => {
-//     const res = await request(app)
-//       .get(`/playlist/get/${dataPreFilled._id}`)
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     expect(res.status).toBe(200);
-//     expect(res.body).toHaveProperty("data");
-//     expect(res.body.status).toBe("success");
-//   });
-
-//   test("User should be able to delete a playlist", async () => {
-//     console.log(currentUser, dataPreFilled);
-
-//     const res = await request(app)
-//       .delete(`/playlist/removeplaylist/${dataPreFilled._id}`)
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     if (currentUser._id == dataPreFilled.owner) {
-//       expect(res.status).toBe(200);
-//     } else {
-//       expect(res.status).toBe(403);
-//     }
-//   });
-// });
-
-// describe("Activities in the playlist", () => {
-//   test("User should be able to add song to playlist", async () => {
-//     const newSong = { title: "A new song" };
-//     const res = await request(app)
-//       .post(`/playlist/addsongs/${dataPreFilled._id}`)
-//       .send(newSong)
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     expect(res.status).toBe(201);
-//   });
-
-//   test("User should be able to delete song from playlist", async () => {
-//     currentUser._id = dataPreFilled.owner;
-//     await request(app)
-//       .post(`/playlist/addsongs/${dataPreFilled._id}`)
-//       .send({ title: "New Song" })
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     const res = await request(app)
-//       .delete(`/playlist/removesong/${dataPreFilled._id}`)
-//       .send({ title: "New Song" })
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     expect(res.status).toBe(200);
-//   });
-
-//   test("User should be able to delete all songs from playlist", async () => {
-//     const res = await request(app)
-//       .delete(`/playlist/removeallsongs/${dataPreFilled._id}`)
-//       .set("Authorization", `Bearer ${currentUser.token}`);
-//     expect(res.status).toBe(200);
-//   });
-// });

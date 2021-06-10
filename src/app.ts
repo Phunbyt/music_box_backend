@@ -7,9 +7,9 @@ import passport from 'passport';
 import router from './routes/musicBoxController/musicRoutes';
 import authGoogleRouter from './routes/social-route/google-auth';
 import authFacebookRouter from './routes/social-route/facebook-auth';
-import cors from 'cors'
 
 const app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
@@ -30,7 +30,7 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 	next(createError(404));
 });
 // error handler
-app.use(function (err: HttpError, req: Request, res: Response, next: NextFunction) {
+app.use(function (err: HttpError, req: Request, res: Response) {
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -54,6 +54,7 @@ app.use(function (
 	err: HttpError,
 	req: Request,
 	res: Response,
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	next: NextFunction
 ) {
 	// set locals, only providing error in development

@@ -35,10 +35,10 @@ router.put('/music/profile/:id', usermiddleware_1.userAuthentication, profile_1.
 router.post('/music/requestReset', requestreset_1.requestReset);
 router.post('/music/reset', requestreset_1.reset);
 //Routes for artists
-router.post('/artist/search', usermiddleware_1.userAuthentication, artist_1.searchArtist); // Search for an artist
-router.post('/artist/create/:id', usermiddleware_1.userAuthentication, artist_1.createArtist); //Create an artist
-router.put('/artist/like/:id', usermiddleware_1.userAuthentication, artist_1.likeArtist); // like an artist
-router.put('/artist/listento/:id', usermiddleware_1.userAuthentication, artist_1.listenedToArtist); // listening to an artist
+router.post('/artist/search', usermiddleware_1.userAuthentication, artist_1.searchArtist);
+router.post('/artist/create/:id', usermiddleware_1.userAuthentication, artist_1.createArtist);
+router.put('/artist/like/:id', usermiddleware_1.userAuthentication, artist_1.likeArtist);
+router.put('/artist/listento/:id', usermiddleware_1.userAuthentication, artist_1.listenedToArtist);
 //Routes for playlist
 router.get('/playlist/get/:id', usermiddleware_1.userAuthentication, playlistController_1.getPlayList);
 router.get('/playlists/', usermiddleware_1.userAuthentication, playlistController_1.getAllPlayLists);
@@ -68,6 +68,6 @@ router.get('/listeninghistory', usermiddleware_1.userAuthentication, listenHisto
 router.post('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.addTrackToHistory);
 router.delete('/listeninghistory/:id', usermiddleware_1.userAuthentication, listenHistory_1.deleteTrackFromHistory);
 // routes for recenly played 
-router.post("/playlist/saveRecentlyPlayed", usermiddleware_1.userAuthentication, recentlyplayed_1.saveRecentlyPlayed);
-router.get("/playlist/getRecentlyPlayed", usermiddleware_1.userAuthentication, recentlyplayed_1.getRecentlyPlayed);
+router.post('/playlist/saveRecentlyPlayed', usermiddleware_1.userAuthentication, recentlyplayed_1.saveRecentlyPlayed);
+router.get('/playlist/getRecentlyPlayed', usermiddleware_1.userAuthentication, recentlyplayed_1.getRecentlyPlayed);
 exports.default = router;

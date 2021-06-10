@@ -13,7 +13,7 @@ import { addSongToPlayList, createPlayList, deletePlayList, deleteAllSongsFromPl
 import { findAlbum, likeAndUnlikeAlbum, listenedToAlbum } from '../../controller/album';
 import { getGenrePlaylist, getGenreArtist } from '../../controller/genrePlaylist';
 import { createArtist, likeArtist, listenedToArtist, searchArtist } from '../../controller/artist'; //Play lists
-import {saveRecentlyPlayed,getRecentlyPlayed} from "../../controller/recentlyplayed";
+import {saveRecentlyPlayed,getRecentlyPlayed} from '../../controller/recentlyplayed';
 const router = express.Router();
 
 // Genre routes
@@ -37,10 +37,10 @@ router.post('/music/requestReset', requestReset);
 router.post('/music/reset', reset);
 
 //Routes for artists
-router.post('/artist/search', userAuthentication, searchArtist); // Search for an artist
-router.post('/artist/create/:id', userAuthentication, createArtist); //Create an artist
-router.put('/artist/like/:id', userAuthentication, likeArtist); // like an artist
-router.put('/artist/listento/:id', userAuthentication, listenedToArtist); // listening to an artist
+router.post('/artist/search', userAuthentication, searchArtist);
+router.post('/artist/create/:id', userAuthentication, createArtist);
+router.put('/artist/like/:id', userAuthentication, likeArtist);
+router.put('/artist/listento/:id', userAuthentication, listenedToArtist);
 
 
 //Routes for playlist
@@ -49,38 +49,38 @@ router.get('/playlists/', userAuthentication, getAllPlayLists);
 router.post('/playlist/create', userAuthentication, createPlayList); //Create a playlist -(name must be unique)
 router.post('/playlist/addsongs/:id', userAuthentication, addSongToPlayList); //Add a song to a playlist
 router.delete(
-  '/playlist/removesong/:id',
-  userAuthentication,
-  deleteSongFromPlayList
+	'/playlist/removesong/:id',
+	userAuthentication,
+	deleteSongFromPlayList
 ); //Delete a song from a playlist
 router.delete(
-  '/playlist/removeallsongs/:id',
-  userAuthentication,
-  deleteAllSongsFromPlayList
+	'/playlist/removeallsongs/:id',
+	userAuthentication,
+	deleteAllSongsFromPlayList
 ); //Delete all songs from a playlist
 router.delete(
-  '/playlist/removeplaylist/:id',
-  userAuthentication,
-  deletePlayList); 
-  router.delete('/playlist/removesong/:id',
- userAuthentication,
- deleteSongFromPlayList
+	'/playlist/removeplaylist/:id',
+	userAuthentication,
+	deletePlayList); 
+router.delete('/playlist/removesong/:id',
+	userAuthentication,
+	deleteSongFromPlayList
 ); //Delete a song from a playlist
 router.delete(
- '/playlist/removeallsongs/:id',
- userAuthentication,
- deleteAllSongsFromPlayList
+	'/playlist/removeallsongs/:id',
+	userAuthentication,
+	deleteAllSongsFromPlayList
 ); //Delete all songs from a playlist
 router.delete(
- '/playlist/removeplaylist/:id',
- userAuthentication,
- deletePlayList
+	'/playlist/removeplaylist/:id',
+	userAuthentication,
+	deletePlayList
 ); //Delete a playlist
 
 //Like a playlist
-router.post('/listen/song',userAuthentication, listenToSongInPlayList)
+router.post('/listen/song',userAuthentication, listenToSongInPlayList);
 //get most played
-router.get('/mostplayed', userAuthentication, getMostPlayed)
+router.get('/mostplayed', userAuthentication, getMostPlayed);
 //change password router
 router.put('/music/changePassword/:id', userAuthentication, changePassword);
 
@@ -101,12 +101,12 @@ router.delete('/listeninghistory/:id', userAuthentication, deleteTrackFromHistor
 
 
 // routes for recenly played 
-router.post("/playlist/saveRecentlyPlayed", userAuthentication, saveRecentlyPlayed);
+router.post('/playlist/saveRecentlyPlayed', userAuthentication, saveRecentlyPlayed);
 
 router.get(
-  "/playlist/getRecentlyPlayed",
-  userAuthentication,
-  getRecentlyPlayed
+	'/playlist/getRecentlyPlayed',
+	userAuthentication,
+	getRecentlyPlayed
 );
 
 export default router;
