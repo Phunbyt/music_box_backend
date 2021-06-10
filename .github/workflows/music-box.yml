@@ -23,19 +23,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: sets environmental variables
-        run: yarn build
-        env:
-          MONGODB_URI: ${{Secrets.MONGODB_URI}}
-          GENRE_LINK: ${{Secrets.GENRE_LINK}}
-          ARTIST_LINK: ${{Secrets.ARTIST_LINK}}
-          SECRET_TEXT: ${{Secrets.SECRET_TEXT}}
-          BCRYPT_SALT: ${{Secrets.BCRYPT_SALT}}
-          CLIENT_URL: ${{Secrets.CLIENT_URL}}
-          JWT_SECRET_KEY: ${{Secrets.JWT_SECRET_KEY}}
-          GOOGLE_CLIENT_ID : ${{Secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET : ${{Secrets.GOOGLE_CLIENT_SECRET }}
-          FACEBOOK_CLIENT_ID : ${{Secrets.FACEBOOK_CLIENT_ID }}
-          FACEBOOK_CLIENT_SECRET : ${{Secrets.FACEBOOK_CLIENT_SECRET }}
       - run: yarn
+        env:
+            MONGODB_URI: ${{Secrets.MONGODB_URI}}
+            GENRE_LINK: ${{Secrets.GENRE_LINK}}
+            ARTIST_LINK: ${{Secrets.ARTIST_LINK}}
+            SECRET_TEXT: ${{Secrets.SECRET_TEXT}}
+            BCRYPT_SALT: ${{Secrets.BCRYPT_SALT}}
+            CLIENT_URL: ${{Secrets.CLIENT_URL}}
+            JWT_SECRET_KEY: ${{Secrets.JWT_SECRET_KEY}}
+            GOOGLE_CLIENT_ID : ${{Secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET : ${{Secrets.GOOGLE_CLIENT_SECRET }}
+            FACEBOOK_CLIENT_ID : ${{Secrets.FACEBOOK_CLIENT_ID }}
+            FACEBOOK_CLIENT_SECRET : ${{Secrets.FACEBOOK_CLIENT_SECRET }}
       - run: yarn test
 
