@@ -21,6 +21,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use(cookie_parser_1.default());
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+// app.use(cors())
 app.use('/', musicRoutes_1.default);
 app.use('/auth/google', google_auth_1.default);
 app.use('/auth/facebook', facebook_auth_1.default);

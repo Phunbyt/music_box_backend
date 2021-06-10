@@ -13,11 +13,11 @@ const playlistLike_1 = require("../../controller/playlistLike");
 const search_1 = require("../../controller/search");
 const requestreset_1 = require("../../controller/requestreset");
 const listenHistory_1 = require("../../controller/listenHistory"); //listeningHistory
-//Play lists
 const playlistController_1 = require("../../controller/playlistController"); //Play lists
 const album_1 = require("../../controller/album");
 const genrePlaylist_1 = require("../../controller/genrePlaylist");
 const artist_1 = require("../../controller/artist"); //Play lists
+const recentlyplayed_1 = require("../../controller/recentlyplayed");
 const router = express_1.default.Router();
 // Genre routes
 router.get('/music/genres', usermiddleware_1.userAuthentication, genres_1.genres);
@@ -27,7 +27,7 @@ router.post('/music/signUp', auth_1.signUp);
 router.post('/music/signIn', auth_1.signIn);
 router.put('/likePublicPost/:id', usermiddleware_1.userAuthentication, playlistLike_1.likePublicPost);
 // routes for SEARCH
-router.get('/music/search/', search_1.search);
+router.get('/music/search/', usermiddleware_1.userAuthentication, search_1.search);
 // Profile route
 router.get('/music/profile/:id', usermiddleware_1.userAuthentication, profile_1.getSingleData);
 router.put('/music/profile/:id', usermiddleware_1.userAuthentication, profile_1.updateData);
@@ -53,7 +53,7 @@ router.delete('/playlist/removeplaylist/:id', usermiddleware_1.userAuthenticatio
 //Like a playlist
 router.post('/listen/song', usermiddleware_1.userAuthentication, playlistController_1.listenToSongInPlayList);
 //get most played
-router.get('/mostplayed', playlistController_1.getMostPlayed);
+router.get('/mostplayed', usermiddleware_1.userAuthentication, playlistController_1.getMostPlayed);
 //change password router
 router.put('/music/changePassword/:id', usermiddleware_1.userAuthentication, changePassword_1.changePassword);
 // get genres playlist and artist
@@ -67,4 +67,7 @@ router.put('/album/listened/:id', usermiddleware_1.userAuthentication, album_1.l
 router.get('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.getListeningHistory);
 router.post('/listeninghistory', usermiddleware_1.userAuthentication, listenHistory_1.addTrackToHistory);
 router.delete('/listeninghistory/:id', usermiddleware_1.userAuthentication, listenHistory_1.deleteTrackFromHistory);
+// routes for recenly played 
+router.post("/playlist/saveRecentlyPlayed", usermiddleware_1.userAuthentication, recentlyplayed_1.saveRecentlyPlayed);
+router.get("/playlist/getRecentlyPlayed", usermiddleware_1.userAuthentication, recentlyplayed_1.getRecentlyPlayed);
 exports.default = router;

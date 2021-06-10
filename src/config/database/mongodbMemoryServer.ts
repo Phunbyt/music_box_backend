@@ -1,10 +1,11 @@
-import { connect, connection } from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
+import { connect, connection } from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 const mongoDb = new MongoMemoryServer();
 
 export const testDbConnect = async () => {
-  console.log("testDbConnect", " from testDbConnect");
+	console.log('testDbConnect', ' from testDbConnect');
+
 
   const uri = await mongoDb.getUri();
   const monogoDbOptions = {
@@ -20,9 +21,10 @@ export const testDbConnect = async () => {
       console.log("connected");
     }
   });
+
 };
 export const dbDisconnect = async () => {
-  await connection.dropDatabase();
-  await connection.close();
-  await mongoDb.stop();
+	await connection.dropDatabase();
+	await connection.close();
+	await mongoDb.stop();
 };
