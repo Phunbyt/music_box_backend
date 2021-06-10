@@ -99,7 +99,19 @@ export async function likeArtist(req: Request | any, res: Response) {
 
 export async function listenedToArtist(req: Request | any, res: Response) {
     try {
-        let count = 1 // used to track the amount of listeningTo an artist has.
+        let count = 1;
+        const listenedTo = await Artist.findOne({
+			_id: req.params.id,
+			listened: { $in: req.user._id }
+		}).exec();
+        
+		if (!listenedTo) {
+			await Artist.findOneAndUpdate(
+				{_id: req.params.id},
+				{ $push: { listened: req.user._id } },
+				{new: true}
+			).exec();
+		}
         const artist = await Artist.findOneAndUpdate(
             { _id: req.params.id },
             { $inc: { listeningCount: count } },
