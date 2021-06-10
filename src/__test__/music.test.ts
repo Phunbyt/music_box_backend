@@ -197,7 +197,6 @@ describe('DELETE/ listening history', () => {
 		expect(res.body.data).toBe('track deleted');
   
 	});
-
 });
 
 describe('create artist, like artist and listen to artist', () => {
@@ -379,3 +378,4 @@ describe('Recently played medias can be seen by user', () => {
 //       .set("Authorization", `Bearer ${currentUser.token}`);
 //     expect(res.status).toBe(200);
 //   });
+// });

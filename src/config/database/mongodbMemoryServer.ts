@@ -6,7 +6,6 @@ const mongoDb = new MongoMemoryServer();
 export const testDbConnect = async () => {
 	console.log('testDbConnect', ' from testDbConnect');
 
-
   const uri = await mongoDb.getUri();
   const monogoDbOptions = {
     useNewUrlParser: true,
