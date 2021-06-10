@@ -1,4 +1,4 @@
-env
+.env
 listening-history
 node_modules
 dist/
