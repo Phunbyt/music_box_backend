@@ -8,10 +8,8 @@ export const getGenrePlaylist = async (
   res: Response,
   next: NextFunction
 ) => {
-  // extra id of playlist from request body
   let id = req.params.id;
 
-  // query the genres collection with the result from the playlist genres and send to the user
   try {
     let genre: Record<any, any> | null = await Genre.findOne({
       id,
@@ -20,7 +18,6 @@ export const getGenrePlaylist = async (
     if (!genre) return res.status(400).send({ message: "No genre found" });
     let genreName = genre["name"];
 
-    //find playlist with the id from the playlist collection and retrive the genres from the results
     let playlist: Record<any, any> | null = await PlayListModel.find({
       genre: genreName,
     });
