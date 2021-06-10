@@ -13,7 +13,6 @@ const playlistLike_1 = require("../../controller/playlistLike");
 const search_1 = require("../../controller/search");
 const requestreset_1 = require("../../controller/requestreset");
 const listenHistory_1 = require("../../controller/listenHistory"); //listeningHistory
-//Play lists
 const playlistController_1 = require("../../controller/playlistController"); //Play lists
 const album_1 = require("../../controller/album");
 const genrePlaylist_1 = require("../../controller/genrePlaylist");

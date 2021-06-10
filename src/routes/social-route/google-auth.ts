@@ -21,7 +21,6 @@ authRouter.get(
 	'/callback',
 	passport.authenticate('google', {
 		session: false,
-		// successRedirect: "/auth/google/callback/dashboard",
 		failureRedirect: '/auth/google/callback/failure',
 	}),
 	async function(req: Request, res: Response) {
