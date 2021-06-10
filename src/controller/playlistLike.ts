@@ -31,14 +31,13 @@ export const likePublicPost = async (req: Request | any,res:Response) => {
 				'status':'failed ',
 				'message': 'you can not like a post more than once'
     
-			});
-		}
-	}catch(err){
-		return res.status(400).json({
-			'status':'failed ',
-			'message': err.message
-		});
-	}
-    
+            });
+        }
+    }catch(err){
+        return res.status(400).json({
+            'status':'failed ',
+            'message': err.message
+        });
+    }  
     
 };
