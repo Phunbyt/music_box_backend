@@ -12,18 +12,18 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv = require("dotenv");
 dotenv.config();
 async function signUp(req, res, next) {
+    const { error } = userValidator_1.validateUser(req.body);
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    }
     try {
         const { firstName, lastName, dateOfBirth, gender, email, password, confirmPassword, } = req.body;
-        const { error } = userValidator_1.validateUser(req.body);
-        if (error) {
-            return res.status(400).send(error.details[0].message);
-        }
+        const inputEmail = await registrationSchema_1.default.findOne({ email });
+        if (inputEmail)
+            return res.status(400).send('User already exists');
         if (password !== confirmPassword) {
             return res.status(400).send("confirmPassword does not match password");
         }
-        const inputEmail = await registrationSchema_1.default.findOne({ email });
-        if (inputEmail)
-            return res.status(400).send("User already exists");
         const user = await registrationSchema_1.default.create({
             firstName,
             lastName,

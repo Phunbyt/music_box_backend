@@ -12,8 +12,8 @@ export interface artist{
     radio: boolean;
     trackList: string;
     type: string;
-    liked: number[];
-    listened: number[];
+    liked: string[];
+    listened: string[];
     likeCount: number;
     listeningCount: number;
 }

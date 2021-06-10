@@ -11,7 +11,7 @@ export const ValidatePlayList = (obj: Record<string, any>) => {
         // listensCount:Joi.number()
     });
 
-    return schema.validate(obj);
+	return schema.validate(obj);
 };
 
 export const ValidateSong = (obj: Record<string, any>) => {
