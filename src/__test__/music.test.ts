@@ -283,4 +283,3 @@ describe('Recently played medias can be seen by user', () => {
 		expect(Object.keys(res.body).length).toBe(3);
 	});
 });
-
