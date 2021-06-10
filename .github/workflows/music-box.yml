@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: sets environmental variables
       - run: yarn start
-        env:
+      - env:
             MONGODB_URI: ${{Secrets.MONGODB_URI}}
             GENRE_LINK: ${{Secrets.GENRE_LINK}}
             ARTIST_LINK: ${{Secrets.ARTIST_LINK}}
