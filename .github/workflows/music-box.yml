@@ -24,17 +24,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: sets environmental variables
           env:
-            MONGODB_URI: ${{secrets.MONGODB_URI}}
-            GENRE_LINK: ${{secrets.GENRE_LINK}}
-            ARTIST_LINK: ${{secrets.ARTIST_LINK}}
-            SECRET_TEXT: ${{secrets.SECRET_TEXT}}
-            BCRYPT_SALT: ${{secrets.BCRYPT_SALT}}
-            CLIENT_URL: ${{secrets.CLIENT_URL}}
-            JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
-            GOOGLE_CLIENT_ID : ${{secrets.GOOGLE_CLIENT_ID }}
-            GOOGLE_CLIENT_SECRET : ${{secrets.GOOGLE_CLIENT_SECRET }}
-            FACEBOOK_CLIENT_ID : ${{secrets.FACEBOOK_CLIENT_ID }}
-            FACEBOOK_CLIENT_SECRET : ${{secrets.FACEBOOK_CLIENT_SECRET }}
+            MONGODB_URI: ${{music-box-a.MONGODB_URI}}
+            GENRE_LINK: ${{music-box-a.GENRE_LINK}}
+            ARTIST_LINK: ${{music-box-a.ARTIST_LINK}}
+            SECRET_TEXT: ${{music-box-a.SECRET_TEXT}}
+            BCRYPT_SALT: ${{music-box-a.BCRYPT_SALT}}
+            CLIENT_URL: ${{music-box-a.CLIENT_URL}}
+            JWT_SECRET_KEY: ${{music-box-a.JWT_SECRET_KEY}}
+            GOOGLE_CLIENT_ID : ${{music-box-a.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET : ${{music-box-a.GOOGLE_CLIENT_SECRET }}
+            FACEBOOK_CLIENT_ID : ${{music-box-a.FACEBOOK_CLIENT_ID }}
+            FACEBOOK_CLIENT_SECRET : ${{music-box-a.FACEBOOK_CLIENT_SECRET }}
       - run: yarn
       - run: yarn test
 
