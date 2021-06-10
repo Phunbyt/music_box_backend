@@ -11,19 +11,15 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const saltRounds = 10;
 const changePassword = async (req, res) => {
     const id = req.params.id;
-    console.log(id);
     const { error } = changePasswordValidator_1.changePasswordValidator(req.body);
     if (error)
         return res.status(400).send({ message: error.details[0].message });
     try {
         const user = await registrationSchema_1.default.findOne({ _id: req.params.id });
-        console.log('user', user);
-        console.log('current', req.body.oldPassword);
         if (!user)
             return res.status(404).send({ message: 'User not found' });
         const { oldPassword, newPassword } = req.body;
         const result = await bcrypt_1.default.compare(oldPassword, user['password']);
-        console.log(result);
         const salt = await bcrypt_1.default.genSalt(saltRounds);
         const hash = await bcrypt_1.default.hash(newPassword, salt);
         // i am suppose to compare using bcrypt but password isnt hashed yet.
