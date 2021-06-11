@@ -16,6 +16,11 @@
 // // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // const currentUser: Record<string, string> = {};
 
+describe('true', ()=>{
+test('true', ()=>{
+expect(true).toBe(true)
+}
+} )
 
 // describe('POST/ signup and signin', () => {
 // 	test('test for sig nup', async () => {
