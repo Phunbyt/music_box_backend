@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import request from 'supertest';
-import axios from 'axios';
-import app from '../app';
-jest.setTimeout(120000);
+// import request from 'supertest';
+// import axios from 'axios';
+// import app from '../app';
+// jest.setTimeout(120000);
 
-import {
-	testDbConnect,
-	dbDisconnect,
-} from '../config/database/mongodbMemoryServer';
+// import {
+// 	testDbConnect,
+// 	dbDisconnect,
+// } from '../config/database/mongodbMemoryServer';
 
-beforeAll(async () => {
-	await testDbConnect();
+// beforeAll(async () => {
+// 	await testDbConnect();
  
-});
-afterAll(async () => {
-	await dbDisconnect();
-});
+// });
+// afterAll(async () => {
+// 	await dbDisconnect();
+// });
 
-let dataPreFilled:any;
-const currentUser: Record<string, any> = {};
-const song: Record<string, any> = {};
+// let dataPreFilled:any;
+// const currentUser: Record<string, any> = {};
+// const song: Record<string, any> = {};
 describe('POST/ signup and signin', () => {
 	
-	test('true is true', ()=>{
+	it('true is true', ()=>{
 	expect(true).toBe(true)
 	})
   
