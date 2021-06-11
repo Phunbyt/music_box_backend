@@ -21,6 +21,10 @@ let dataPreFilled:any;
 const currentUser: Record<string, any> = {};
 const song: Record<string, any> = {};
 describe('POST/ signup and signin', () => {
+	
+	test('true is true', ()=>{
+	expect(true).toBe(true)
+	})
   
 // 	test('test for sign up', async () => {
 // 		const user = {
